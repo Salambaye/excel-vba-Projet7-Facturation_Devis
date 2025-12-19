@@ -170,6 +170,8 @@ Sub FormaterDevis()
 
     ' En-têtes
     With wsDevis
+        .Cells(3, 3).Value = "Devis N° "
+     
         .Cells(6, 1).Value = "Ista Comptage Immobilier Services"
         .Cells(7, 1).Value = "3 rue Christophe Colomb"
         .Cells(8, 1).Value = "91300 MASSY"
