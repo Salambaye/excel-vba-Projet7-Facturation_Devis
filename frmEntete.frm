@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmEntete 
    Caption         =   "Données de l'entête"
-   ClientHeight    =   13125
+   ClientHeight    =   14130
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   15960
@@ -61,6 +61,10 @@ End Sub
 Private Sub btnAnnuler_Click()
     Me.Annule = True
     Me.Hide
+End Sub
+
+Private Sub ScrollBar1_Change()
+
 End Sub
 
 'Private Sub UserForm_Click()
