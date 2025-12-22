@@ -177,6 +177,7 @@ Sub Facturation()
     
     '------------------- Initialisation -----------------------------------
     Call InitialiserDevis
+'    Call InsererLogoIsta
     
 
     '------------------------------- Message de fin de traitement --------------------------
@@ -204,17 +205,66 @@ Fin:
 
 End Sub
 
+'Sub InitialiserDevis()
+'    ' Créer le fichier de sortie
+'    Set wbDevis = Workbooks.Add
+'
+'    ' Créer la feuille "launcher quotidien"
+'    Set wsDevis = wbDevis.Worksheets(1)
+'    wsDevis.Name = "Devis Travaux"
+'    wsDevis.Tab.Color = RGB(242, 206, 239)
+'
+'    Call FormaterDevis
+'End Sub
+
 Sub InitialiserDevis()
-    ' Créer le fichier de sortie
+    Dim wbDevis As Workbook
+    Dim wsDevis As Worksheet
+    Dim wsSource As Worksheet
+    Dim img As Shape
+    Dim copieImg As Shape
+    
+    ' --- Créer le fichier de sortie
     Set wbDevis = Workbooks.Add
     
-    ' Créer la feuille "launcher quotidien"
+    ' --- Créer la feuille "Devis Travaux"
     Set wsDevis = wbDevis.Worksheets(1)
     wsDevis.Name = "Devis Travaux"
     wsDevis.Tab.Color = RGB(242, 206, 239)
     
-    Call FormaterDevis
+    ' --- Feuille source où l'image est stockée (dans le fichier contenant la macro)
+    Set wsSource = ThisWorkbook.Sheets("Images")
+    
+    ' --- Vérifier si l'image existe
+    On Error Resume Next
+    Set img = wsSource.Shapes("LogoIsta")
+    On Error GoTo 0
+    
+    If img Is Nothing Then
+        MsgBox "L'image 'LogoStocke' n'existe pas dans la feuille 'Images'.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' --- Copier l'image depuis la feuille source
+    img.Copy
+    
+    ' --- Coller dans la feuille "Devis Travaux" du nouveau fichier
+    wsDevis.Paste
+    Set copieImg = wsDevis.Shapes(wsDevis.Shapes.Count)
+    
+    ' --- Positionner et redimensionner l'image
+    With copieImg
+        .Top = wsDevis.Range("B2").Top
+        .Left = wsDevis.Range("B2").Left
+        .LockAspectRatio = msoTrue
+        .Height = 50
+    End With
+    
+     Call FormaterDevis
+    
+'    MsgBox "Fichier 'Devis Travaux' créé avec l'image insérée.", vbInformation
 End Sub
+
 
 Sub FormaterDevis()
 
@@ -260,4 +310,99 @@ Sub FormaterDevis()
         '        .VerticalAlignment = xlCenter
     End With
 End Sub
+
+Sub InsererLogoIsta()
+'    Dim wsSource As Worksheet
+'    Dim wsDest As Worksheet
+'    Dim img As Shape
+'    Dim copieImg As Shape
+'
+'    ' Feuille où l'image est stockée (masquée)
+'    Set wsSource = ThisWorkbook.Sheets("Images")
+'
+'    ' Feuille où on veut insérer l'image
+'    Set wsDest = wsDevis.Sheets("Devis Travaux")
+'
+'    ' Vérifier si l'image existe
+'    On Error Resume Next
+'    Set img = wsSource.Shapes("LogoIsta")
+'    On Error GoTo 0
+'
+'    If img Is Nothing Then
+'        MsgBox "L'image 'LogoIsta' n'existe pas dans la feuille 'Images'.", vbExclamation
+'        Exit Sub
+'    End If
+'
+'    ' Copier l'image depuis la feuille masquée
+'    img.Copy
+'
+'    ' Coller dans la feuille de destination
+'    wsDest.Paste
+'    Set copieImg = wsDest.Shapes(wsDest.Shapes.Count)
+'
+'    ' Positionner et redimensionner
+'    With copieImg
+'        .Top = wsDest.Range("B2").Top
+'        .Left = wsDest.Range("B2").Left
+'        .LockAspectRatio = msoTrue
+'        .Height = 50
+'    End With
+
+
+    Dim wbSource As Workbook
+    Dim wbDest As Workbook
+    Dim wsSource As Worksheet
+    Dim wsDest As Worksheet
+    Dim img As Shape
+    Dim copieImg As Shape
+    
+    ' --- Définir le classeur source (celui qui contient l'image)
+    Set wbSource = ThisWorkbook ' La macro est dans le fichier source
+    
+    ' --- Définir le classeur destination (déjà ouvert)
+    On Error Resume Next
+    Set wbDest = Workbooks("Devis.xlsx") ' Nom exact du fichier destination
+    On Error GoTo 0
+    
+    If wbDest Is Nothing Then
+        MsgBox "Le fichier 'Devis.xlsx' n'est pas ouvert.", vbCritical
+        Exit Sub
+    End If
+    
+    ' --- Feuille source où l'image est stockée
+    Set wsSource = wbSource.Sheets("Images")
+    
+    ' --- Feuille destination dans l'autre fichier
+    Set wsDest = wbDest.Sheets("Devis Travaux")
+    
+    ' --- Vérifier si l'image existe
+    On Error Resume Next
+    Set img = wsSource.Shapes("LogoIsta")
+    On Error GoTo 0
+    
+    If img Is Nothing Then
+        MsgBox "L'image 'LogoIsta' n'existe pas dans la feuille 'Images'.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' --- Copier l'image
+    img.Copy
+    
+    ' --- Coller dans la feuille destination
+    wsDest.Paste
+    Set copieImg = wsDest.Shapes(wsDest.Shapes.Count)
+    
+    ' --- Positionner et redimensionner
+    With copieImg
+        .Top = wsDest.Range("B2").Top
+        .Left = wsDest.Range("B2").Left
+        .LockAspectRatio = msoTrue
+        .Height = 50
+    End With
+    
+
+
+    
+End Sub
+
 
