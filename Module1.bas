@@ -1,5 +1,5 @@
 Attribute VB_Name = "Module1"
-'Salamata Nourou MBAYE - 19/12/2025 - Version 1.0
+'Salamata Nourou MBAYE - 22/12/2025 - Version 1.0
 'PROJET 7 - Facturation
 
 
@@ -9,6 +9,19 @@ Dim wbDevis As Workbook
 Dim wsDevis As Worksheet
 
 Dim nomClient As String
+Dim adresseClient As String
+Dim codePostalVilleClient As String
+Dim refClient As String
+Dim refUEBeep As String
+Dim gestionnaire As String
+Dim telGestionnaire As String
+Dim mailGestionnaire As String
+Dim emplacementTravaux As String
+Dim adresseChantier As String
+Dim codePostalChantier As String
+Dim villeChantier As String
+Dim presentationProjet As String
+Dim descriptionDesignation As String
 
 Sub Facturation()
 
@@ -96,7 +109,7 @@ Sub Facturation()
     Set wsTarifGenerique = wbTarification.Worksheets("Tarif générique 2025 ")
     Set wsTarifPlomberie = wbTarification.Worksheets("Tarif travaux Plomberie")
     Set wsTarifChauffage = wbTarification.Worksheets("Tarif travaux Chauffage")
-'    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif de vente de vannes")
+'        Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif de vente de vannes")
     Set wsTarifClient = wbTarification.Worksheets("Tarif Client compteurs d'eau")
     Set wsTarifPassage = wbTarification.Worksheets("Tarif passage supplémentaire")
     
@@ -115,10 +128,10 @@ Sub Facturation()
         MsgBox "La feuille 'Tarif travaux Chauffage' n'existe pas dans Tarification", vbCritical
         GoTo Fin
     End If
-'    If wsTarifVenteDeVannes Is Nothing Then
-'        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
-'        GoTo Fin
-'    End If
+'        If wsTarifVenteDeVannes Is Nothing Then
+'            MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
+'            GoTo Fin
+'        End If
     If wsTarifClient Is Nothing Then
         MsgBox "La feuille 'Tarif Client compteurs d'eau' n'existe pas dans Tarification", vbCritical
         GoTo Fin
@@ -143,28 +156,28 @@ Sub Facturation()
         Exit Sub
     End If
     
-
-    Dim adresseClient As String
-    Dim codePostalVilleClient As String
-    Dim refClient As String
-    Dim refUEBeep As String
-    Dim gestionnaire As String
-    Dim telGestionnaire As String
-    Dim mailGestionnaire As String
-    Dim presentationProjet As String
-    Dim descriptionDesignation As String
-    
-    
     nomClient = Trim(frmEntete.txtNomClient.Value)
     adresseClient = Trim(frmEntete.txtAdresseClient.Value)
-    codePostalVilleClient = Trim(frmEntete.cmbPeriod)
-    refClient = Trim(frmEntete.txtDatePose.Value)
-    refUEBeep = Trim(frmEntete.txtCodeProduit.Value)
+    codePostalVilleClient = Trim(frmEntete.txtCpVille.Value)
+    refClient = Trim(frmEntete.txtRefclient.Value)
+    refUEBeep = Trim(frmEntete.txtRefUEBeep.Value)
+    gestionnaire = Trim(frmEntete.txtGestionnaire.Value)
+    telGestionnaire = Trim(frmEntete.txtTelGestionnaire.Value)
+    mailGestionnaire = Trim(frmEntete.txtMailGestionnaire.Value)
+    emplacementTravaux = Trim(frmEntete.txtEmplTravaux.Value)
+    adresseChantier = Trim(frmEntete.txtAdresseChantier.Value)
+    codePostalChantier = Trim(frmEntete.txtCpChantier.Value)
+    villeChantier = Trim(frmEntete.txtVilleChantier.Value)
+    presentationProjet = Trim(frmEntete.txtPresentation.Value)
+    descriptionDesignation = Trim(frmEntete.txtDesignation.Value)
     
     Unload frmEntete
     
-Call InitialiserDevis
-
+    
+    
+    '------------------- Initialisation -----------------------------------
+    Call InitialiserDevis
+    
 
     '------------------------------- Message de fin de traitement --------------------------
     MsgBox "Traitement terminé", vbInformation
@@ -220,21 +233,21 @@ Sub FormaterDevis()
         .Cells(13, 1).Value = "Adresse mail : ocontat@ista.fr"
         
         .Cells(10, 4).Value = "Nom du client : " & nomClient
-        .Cells(11, 4).Value = "Adresse : "
-        .Cells(12, 4).Value = "Code postal : "
+        .Cells(11, 4).Value = "Adresse : " & adresseClient
+        .Cells(12, 4).Value = "Code postal et Ville : " & codePostalVilleClient
         
-        .Cells(16, 1).Value = "Référence client : "
-        .Cells(17, 1).Value = "N/Référence UEX + BEEP : "
+        .Cells(16, 1).Value = "Référence client : " & refClient
+        .Cells(17, 1).Value = "N/Référence UEX + BEEP : " & refUEBeep
         
-        .Cells(15, 4).Value = "Gestionnaire : "
-        .Cells(16, 4).Value = "telephone gestionnaire : "
-        .Cells(17, 4).Value = "mail gestionnaire"
+        .Cells(15, 4).Value = "Gestionnaire : " & gestionnaire
+        .Cells(16, 4).Value = "Téléphone gestionnaire : " & telGestionnaire
+        .Cells(17, 4).Value = "Mail gestionnaire : " & mailGestionnaire
         
-        .Cells(19, 1).Value = "Adresse chantier : "
-        .Cells(20, 1).Value = "Code postal : "
-        .Cells(21, 1).Value = "Emplacement travaux : "
+        .Cells(19, 1).Value = "Adresse chantier : " & adresseChantier
+        .Cells(20, 1).Value = "Code postal et ville : " & codePostalChantier & villeChantier
+        .Cells(21, 1).Value = "Emplacement travaux : " & emplacementTravaux
         
-        .Cells(23, 1).Value = "Présentation du projet : "
+        .Cells(23, 1).Value = "Présentation du projet : " & presentationProjet
     End With
     
     With wsDevis.Range("A1:A1")
