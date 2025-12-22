@@ -8,6 +8,8 @@ Attribute VB_Name = "Module1"
 Dim wbDevis As Workbook
 Dim wsDevis As Worksheet
 
+Dim nomClient As String
+
 Sub Facturation()
 
     '---------------------- Optimisation pour accélérer la macro --------------------------
@@ -126,7 +128,42 @@ Sub Facturation()
         GoTo Fin
     End If
 
-    Call InitialiserDevis
+
+    
+    
+    '_________ Etape  :  Renseignements de données de l'entête par l'utilisateur via un UserForm______
+     
+    frmEntete.Annule = True
+     
+    frmEntete.Show
+    
+    If frmEntete.Annule = True Then
+        MsgBox "Opération annulée par l'utilisateur.", vbInformation
+        Unload frmEntete
+        Exit Sub
+    End If
+    
+
+    Dim adresseClient As String
+    Dim codePostalVilleClient As String
+    Dim refClient As String
+    Dim refUEBeep As String
+    Dim gestionnaire As String
+    Dim telGestionnaire As String
+    Dim mailGestionnaire As String
+    Dim presentationProjet As String
+    Dim descriptionDesignation As String
+    
+    
+    nomClient = Trim(frmEntete.txtNomClient.Value)
+    adresseClient = Trim(frmEntete.txtAdresseClient.Value)
+    codePostalVilleClient = Trim(frmEntete.cmbPeriod)
+    refClient = Trim(frmEntete.txtDatePose.Value)
+    refUEBeep = Trim(frmEntete.txtCodeProduit.Value)
+    
+    Unload frmEntete
+    
+Call InitialiserDevis
 
 
     '------------------------------- Message de fin de traitement --------------------------
@@ -182,7 +219,7 @@ Sub FormaterDevis()
         .Cells(12, 1).Value = "Téléphone : 06.73.47.65.06"
         .Cells(13, 1).Value = "Adresse mail : ocontat@ista.fr"
         
-        .Cells(10, 4).Value = "Nom du client : "
+        .Cells(10, 4).Value = "Nom du client : " & nomClient
         .Cells(11, 4).Value = "Adresse : "
         .Cells(12, 4).Value = "Code postal : "
         
