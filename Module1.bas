@@ -94,7 +94,7 @@ Sub Facturation()
     Set wsTarifGenerique = wbTarification.Worksheets("Tarif générique 2025 ")
     Set wsTarifPlomberie = wbTarification.Worksheets("Tarif travaux Plomberie")
     Set wsTarifChauffage = wbTarification.Worksheets("Tarif travaux Chauffage")
-    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif de vente de vannes")
+'    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif de vente de vannes")
     Set wsTarifClient = wbTarification.Worksheets("Tarif Client compteurs d'eau")
     Set wsTarifPassage = wbTarification.Worksheets("Tarif passage supplémentaire")
     
@@ -113,10 +113,10 @@ Sub Facturation()
         MsgBox "La feuille 'Tarif travaux Chauffage' n'existe pas dans Tarification", vbCritical
         GoTo Fin
     End If
-    If wsTarifVenteDeVannes Is Nothing Then
-        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
-        GoTo Fin
-    End If
+'    If wsTarifVenteDeVannes Is Nothing Then
+'        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
+'        GoTo Fin
+'    End If
     If wsTarifClient Is Nothing Then
         MsgBox "La feuille 'Tarif Client compteurs d'eau' n'existe pas dans Tarification", vbCritical
         GoTo Fin
@@ -179,7 +179,7 @@ Sub FormaterDevis()
         .Cells(7, 4).Value = "Date : " & Format(Now, "dd/mm/yyyy")
         
         .Cells(11, 1).Value = "Dossier généré par : Olivier Contat"
-        .Cells(12, 1).Value = "Téléphone : "
+        .Cells(12, 1).Value = "Téléphone : 06.73.47.65.06"
         .Cells(13, 1).Value = "Adresse mail : ocontat@ista.fr"
         
         .Cells(10, 4).Value = "Nom du client : "
@@ -193,9 +193,9 @@ Sub FormaterDevis()
         .Cells(16, 4).Value = "telephone gestionnaire : "
         .Cells(17, 4).Value = "mail gestionnaire"
         
-        .Cells(11, 1).Value = "Adresse chantier : "
-        .Cells(12, 1).Value = "Code postal : "
-        .Cells(13, 1).Value = "Emplacement travaux : "
+        .Cells(19, 1).Value = "Adresse chantier : "
+        .Cells(20, 1).Value = "Code postal : "
+        .Cells(21, 1).Value = "Emplacement travaux : "
         
         .Cells(23, 1).Value = "Présentation du projet : "
     End With
