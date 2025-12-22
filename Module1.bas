@@ -244,7 +244,7 @@ Sub FormaterDevis()
         .Cells(17, 4).Value = "Mail gestionnaire : " & mailGestionnaire
         
         .Cells(19, 1).Value = "Adresse chantier : " & adresseChantier
-        .Cells(20, 1).Value = "Code postal et ville : " & codePostalChantier & villeChantier
+        .Cells(20, 1).Value = "Code postal et ville : " & codePostalChantier & " " & villeChantier
         .Cells(21, 1).Value = "Emplacement travaux : " & emplacementTravaux
         
         .Cells(23, 1).Value = "Présentation du projet : " & presentationProjet
