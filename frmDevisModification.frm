@@ -33,7 +33,7 @@ Private Sub UserForm_Initialize()
     With Me
         .BackColor = RGB(245, 248, 250)
         .width = 1000
-        .Height = 1000
+        .Height = 650
         .caption = "Modification des prix - Saisie manuelle"
     End With
     
@@ -83,6 +83,7 @@ Private Sub UserForm_Initialize()
         .top = topPos
         .left = leftLabel
         .width = 120
+        .Height = 150
     End With
     
     With txtDesignation
@@ -177,8 +178,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 130
         .Height = 32
-        .top = topPos
-        .left = 390
+'        .top = topPos
+'        .left = 390
     End With
     
     ' Liste des lignes ajoutées
@@ -204,15 +205,16 @@ Private Sub UserForm_Initialize()
     
     ' Bouton Supprimer
     With btnSupprimerLigne
-        .caption = "Supprimer"
+        .caption = "Supprimer la ligne"
         .Font.Name = "Segoe UI"
         .Font.Size = 10
+        .Font.Bold = True
         .BackColor = RGB(239, 68, 68)
         .ForeColor = RGB(255, 255, 255)
-        .width = 100
-        .Height = 28
-        .top = 450
-        .left = 540
+        .width = 130
+        .Height = 32
+'        .top = 450
+'        .left = 540
     End With
     
     ' Boutons principaux
@@ -226,7 +228,7 @@ Private Sub UserForm_Initialize()
         .width = 150
         .Height = 35
         .top = 490
-        .left = 240
+        .left = 140
     End With
     
     With btnAnnuler
@@ -235,10 +237,10 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .BackColor = RGB(239, 68, 68)
         .ForeColor = RGB(255, 255, 255)
-        .width = 100
+        .width = 150
         .Height = 35
         .top = 490
-        .left = 410
+        .left = 310
     End With
 End Sub
 
