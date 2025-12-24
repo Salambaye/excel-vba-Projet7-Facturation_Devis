@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmDevisDetaille 
    Caption         =   "UserForm1"
    ClientHeight    =   13425
-   ClientLeft      =   105
-   ClientTop       =   450
-   ClientWidth     =   18105
+   ClientLeft      =   165
+   ClientTop       =   690
+   ClientWidth     =   28275
    OleObjectBlob   =   "frmDevisDetaille.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -21,8 +21,8 @@ Attribute VB_Exposed = False
 Public Annule As Boolean
 Public dictFournitures As Object
 Public dictMainOeuvre As Object
-    Dim ws As Worksheet
-    Dim derniereLigne As Long
+Dim ws As Worksheet
+Dim derniereLigne As Long
 
 Private Sub UserForm_Initialize()
     Me.Annule = False
@@ -65,10 +65,10 @@ Private Sub UserForm_Initialize()
     With lstFournitures
         .Font.Name = "Segoe UI"
         .Font.Size = 9
-'        .width = 320
-'        .Height = 250
-'        .top = 90
-'        .left = 15
+        '        .width = 320
+        '        .Height = 250
+        '        .top = 90
+        '        .left = 15
         .MultiSelect = fmMultiSelectMulti
     End With
     
@@ -78,25 +78,25 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
-'        .top = 65
-'        .left = 15
-'        .width = 320
+        '        .top = 65
+        '        .left = 15
+        '        .width = 320
     End With
     
     With lblQteFournitures
         .caption = "Quantité :"
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-'        .top = 350
-'        .left = 15
+        '        .top = 350
+        '        .left = 15
     End With
     
     With txtQteFournitures
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-'        .width = 100
-'        .top = 348
-'        .left = 85
+        '        .width = 100
+        '        .top = 348
+        '        .left = 85
         .Value = "1"
     End With
     
@@ -106,20 +106,20 @@ Private Sub UserForm_Initialize()
         .Font.Size = 10
         .BackColor = RGB(59, 130, 246)
         .ForeColor = RGB(255, 255, 255)
-'        .width = 80
-'        .Height = 28
-'        .top = 345
-'        .left = 200
+        '        .width = 80
+        '        .Height = 28
+        '        .top = 345
+        '        .left = 200
     End With
     
     ' ==================== LISTE MAIN D'ŒUVRE ====================
     With lstMainOeuvre
         .Font.Name = "Segoe UI"
         .Font.Size = 9
-'        .width = 320
-'        .Height = 250
-'        .top = 90
-'        .left = 355
+        '        .width = 320
+        '        .Height = 250
+        '        .top = 90
+        '        .left = 355
         .MultiSelect = fmMultiSelectMulti
     End With
     
@@ -129,25 +129,25 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
-'        .top = 65
-'        .left = 355
-'        .width = 320
+        '        .top = 65
+        '        .left = 355
+        '        .width = 320
     End With
     
     With lblHeuresMainOeuvre
         .caption = "Heures :"
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-'        .top = 350
-'        .left = 355
+        '        .top = 350
+        '        .left = 355
     End With
     
     With txtHeuresMainOeuvre
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-'        .width = 100
-'        .top = 348
-'        .left = 420
+        '        .width = 100
+        '        .top = 348
+        '        .left = 420
         .Value = "1"
     End With
     
@@ -157,10 +157,10 @@ Private Sub UserForm_Initialize()
         .Font.Size = 10
         .BackColor = RGB(59, 130, 246)
         .ForeColor = RGB(255, 255, 255)
-'        .width = 80
-'        .Height = 28
-'        .top = 345
-'        .left = 540
+        '        .width = 80
+        '        .Height = 28
+        '        .top = 345
+        '        .left = 540
     End With
     
     ' ==================== LISTE ÉLÉMENTS AJOUTÉS ====================
@@ -170,18 +170,18 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
-'        .top = 395
-'        .left = 15
-'        .width = 660
+        '        .top = 395
+        '        .left = 15
+        '        .width = 660
     End With
     
     With lstElementsAjoutes
         .Font.Name = "Segoe UI"
         .Font.Size = 9
-'        .width = 660
-'        .Height = 100
-'        .top = 420
-'        .left = 15
+        '        .width = 660
+        '        .Height = 100
+        '        .top = 420
+        '        .left = 15
     End With
     
     With btnSupprimerElement
@@ -190,10 +190,10 @@ Private Sub UserForm_Initialize()
         .Font.Size = 10
         .BackColor = RGB(239, 68, 68)
         .ForeColor = RGB(255, 255, 255)
-'        .width = 100
-'        .Height = 28
-'        .top = 530
-'        .left = 575
+        '        .width = 100
+        '        .Height = 28
+        '        .top = 530
+        '        .left = 575
     End With
     
     ' ==================== BOUTONS PRINCIPAUX ====================
@@ -204,10 +204,10 @@ Private Sub UserForm_Initialize()
         .Font.Bold = True
         .BackColor = RGB(34, 197, 94)
         .ForeColor = RGB(255, 255, 255)
-'        .width = 150
-'        .Height = 35
-'        .top = 565
-'        .left = 250
+        '        .width = 150
+        '        .Height = 35
+        '        .top = 565
+        '        .left = 250
     End With
     
     With btnAnnuler
@@ -216,10 +216,10 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .BackColor = RGB(239, 68, 68)
         .ForeColor = RGB(255, 255, 255)
-'        .width = 100
-'        .Height = 35
-'        .top = 565
-'        .left = 420
+        '        .width = 100
+        '        .Height = 35
+        '        .top = 565
+        '        .left = 420
     End With
 End Sub
 
@@ -227,8 +227,8 @@ End Sub
 ' Chargement de la liste des fournitures depuis les feuilles Tarification
 '========================================================================================
 Private Sub ChargerListeFournitures()
-'    Dim ws As Worksheet
-''    Dim derniereLigne As Long
+    '    Dim ws As Worksheet
+    ''    Dim derniereLigne As Long
     Dim i As Long
     Dim item As String
     
@@ -264,15 +264,15 @@ Private Sub ChargerListeFournitures()
         End If
     Next i
     
-'    ' ========== VANNES ==========
-'    Set ws = wsTarifVenteDeVannes
-'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-'    For i = 4 To derniereLigne
-'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
-'            lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-'        End If
-'    Next i
+    '    ' ========== VANNES ==========
+    '    Set ws = wsTarifVenteDeVannes
+    '    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    '    For i = 4 To derniereLigne
+    '        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+    '            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
+    '            lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+    '        End If
+    '    Next i
 End Sub
 
 '========================================================================================
@@ -389,7 +389,7 @@ End Sub
 '        prixStr = Replace(prixStr, " ", "")
 '        ExtrairePrix = CDbl(prixStr)
 '    End If
-'End
+'End Function
 
 Private Function ExtrairePrix(texte As String) As Double
     On Error GoTo GestionErreur
@@ -413,8 +413,8 @@ Private Function ExtrairePrix(texte As String) As Double
     resultat = ""
     For i = 1 To Len(prixStr)
         Select Case Mid(prixStr, i, 1)
-            Case "0" To "9", ".", ","
-                resultat = resultat & Mid(prixStr, i, 1)
+        Case "0" To "9", ".", ","
+            resultat = resultat & Mid(prixStr, i, 1)
         End Select
     Next i
     
@@ -432,7 +432,6 @@ GestionErreur:
     Debug.Print "Erreur ExtrairePrix : " & Err.Description & " - Texte : " & texte
     ExtrairePrix = 0
 End Function
-
 
 '========================================================================================
 ' Supprimer un élément de la liste
@@ -474,3 +473,4 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
         Cancel = True
     End If
 End Sub
+
