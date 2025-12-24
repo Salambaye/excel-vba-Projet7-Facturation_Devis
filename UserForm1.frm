@@ -1,14 +1,14 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmEntete 
-   Caption         =   "Données de l'entête"
-   ClientHeight    =   14130
-   ClientLeft      =   180
-   ClientTop       =   705
-   ClientWidth     =   24930
-   OleObjectBlob   =   "frmEntete.frx":0000
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} UserForm1 
+   Caption         =   "UserForm1"
+   ClientHeight    =   12870
+   ClientLeft      =   120
+   ClientTop       =   465
+   ClientWidth     =   18885
+   OleObjectBlob   =   "UserForm1.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
-Attribute VB_Name = "frmEntete"
+Attribute VB_Name = "UserForm1"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -199,19 +199,12 @@ Private Sub UserForm_Initialize()
         .BackColor = RGB(30, 58, 138)
         .BackStyle = fmBackStyleOpaque
         .TextAlign = fmTextAlignCenter
-        '        .width = 500
+        .width = 500
         .Height = 35
         .top = 5
         .left = 10
     End With
     
-    '    With lblNomClient
-    '        .ForeColor = RGB(55, 65, 81)
-    ''        .BackColor = RGB(33, 92, 152)
-    '        .BackStyle = fmBackStyleTransparent
-    '    End With
-        
-        
     ' Positionner les contrôles
     Dim topPos As Long
     Dim leftLabel As Long
@@ -224,61 +217,62 @@ Private Sub UserForm_Initialize()
     espacement = 35
     
     ' Client
-    '    ConfigurerLabel lblNomClient, "Nom du client * :", leftLabel, topPos
-    '    ConfigurerTextBox txtNomClient, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblAdresseClient, "Adresse du client :", leftLabel, topPos
-    '    ConfigurerTextBox txtAdresseClient, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblCpVille, "Code postal et ville :", leftLabel, topPos
-    '    ConfigurerTextBox txtCpVille, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblRefclient, "Référence client :", leftLabel, topPos
-    '    ConfigurerTextBox txtRefclient, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblRefUEBeep, "Réf UEX * :", leftLabel, topPos
-    '    ConfigurerTextBox txtRefUEBeep, leftTextBox, topPos
-    '
-    '    ' Gestionnaire
-    '    topPos = topPos + espacement + 10
-    '    ConfigurerLabel lblGestionnaire, "Gestionnaire :", leftLabel, topPos
-    '    ConfigurerTextBox txtGestionnaire, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblTelGestionnaire, "Tél. gestionnaire :", leftLabel, topPos
-    '    ConfigurerTextBox txtTelGestionnaire, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblMailGestionnaire, "Mail gestionnaire :", leftLabel, topPos
-    '    ConfigurerTextBox txtMailGestionnaire, leftTextBox, topPos
-    '
-    '    ' Chantier
-    '    topPos = topPos + espacement + 10
-    '    ConfigurerLabel lblAdresseChantier, "Adresse chantier * :", leftLabel, topPos
-    '    ConfigurerTextBox txtAdresseChantier, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblCpChantier, "Code postal * :", leftLabel, topPos
-    '    ConfigurerTextBox txtCpChantier, leftTextBox, topPos, 100
-    '
-    '    ConfigurerLabel lblVilleChantier, "Ville * :", leftTextBox + 110, topPos
-    '    ConfigurerTextBox txtVilleChantier, leftTextBox + 160, topPos, 140
-    '
-    '    topPos = topPos + espacement
-    ''    ConfigurerLabel lblEmplTravaux, "Emplacement travaux :", leftLabel, topPos
-    ''    ConfigurerTextBox txtEmplTravaux, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblPresentation, "Présentation projet :", leftLabel, topPos
-    '    ConfigurerTextBox txtPresentation, leftTextBox, topPos
-    '
-    '    topPos = topPos + espacement
-    '    ConfigurerLabel lblDesignation, "Description :", leftLabel, topPos
-    '    ConfigurerTextBox txtDesignation, leftTextBox, topPos
+    ConfigurerLabel lblNomClient, "Nom du client * :", leftLabel, topPos
+    ConfigurerTextBox txtNomClient, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblAdresseClient, "Adresse du client :", leftLabel, topPos
+    ConfigurerTextBox txtAdresseClient, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblCpVille, "Code postal et ville :", leftLabel, topPos
+    ConfigurerTextBox txtCpVille, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblRefclient, "Référence client :", leftLabel, topPos
+    ConfigurerTextBox txtRefclient, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblRefUEBeep, "Réf UEX * :", leftLabel, topPos
+    ConfigurerTextBox txtRefUEBeep, leftTextBox, topPos
+
+    ' Gestionnaire
+    topPos = topPos + espacement + 10
+    ConfigurerLabel lblGestionnaire, "Gestionnaire :", leftLabel, topPos
+    ConfigurerTextBox txtGestionnaire, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblTelGestionnaire, "Tél. gestionnaire :", leftLabel, topPos
+    ConfigurerTextBox txtTelGestionnaire, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblMailGestionnaire, "Mail gestionnaire :", leftLabel, topPos
+    ConfigurerTextBox txtMailGestionnaire, leftTextBox, topPos
+
+    ' Chantier
+    topPos = topPos + espacement + 10
+    ConfigurerLabel lblAdresseChantier, "Adresse chantier * :", leftLabel, topPos
+    ConfigurerTextBox txtAdresseChantier, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblCpChantier, "Code postal * :", leftLabel, topPos
+    ConfigurerTextBox txtCpChantier, leftTextBox, topPos
+    
+    topPos = topPos + espacement
+    ConfigurerLabel lblVilleChantier, "Ville * :", leftLabel, topPos 'leftTextBox + 110, topPos
+    ConfigurerTextBox txtVilleChantier, leftTextBox, topPos '+ 160, topPos, 140
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblEmplTravaux, "Emplacement travaux :", leftLabel, topPos
+    ConfigurerTextBox txtEmplTravaux, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblPresentation, "Présentation projet :", leftLabel, topPos
+    ConfigurerTextBox txtPresentation, leftTextBox, topPos
+
+    topPos = topPos + espacement
+    ConfigurerLabel lblDesignation, "Description désignation:", leftLabel, topPos
+    ConfigurerTextBox txtDesignation, leftTextBox, topPos
     
     ' Boutons
     topPos = topPos + espacement + 10
@@ -290,10 +284,10 @@ Private Sub UserForm_Initialize()
         .Font.Bold = True
         .BackColor = RGB(34, 197, 94)
         .ForeColor = RGB(255, 255, 255)
-        '        .width = 100
-        '        .Height = 32
-        '        .top = topPos
-        '        .left = 150
+        .width = 100
+        .Height = 32
+        .top = topPos
+        .left = 150
     End With
     
     With btnAnnuler
@@ -302,40 +296,40 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .BackColor = RGB(239, 68, 68)
         .ForeColor = RGB(255, 255, 255)
-        '        .width = 100
-        '        .Height = 32
-        '        .top = topPos
-        '        .left = 270
+        .width = 100
+        .Height = 32
+        .top = topPos
+        .left = 270
     End With
 End Sub
 
-'Private Sub ConfigurerLabel(ctrl As MSForms.Label, caption As String, left As Long, top As Long)
-'    With ctrl
-'        .caption = caption
-'        .Font.Name = "Segoe UI"
-'        .Font.Size = 10
-'        .ForeColor = RGB(55, 65, 81)
-'        .BackStyle = fmBackStyleTransparent
-'        .width = 180
-'        .Height = 18
-'        .top = top
-'        .left = left
-'    End With
-'End Sub
-'
-'Private Sub ConfigurerTextBox(ctrl As MSForms.TextBox, left As Long, top As Long, Optional width As Long = 300)
-'    With ctrl
-'        .Font.Name = "Segoe UI"
-'        .Font.Size = 10
-'        .width = width
-'        .Height = 22
-'        .top = top
-'        .left = left
-'        .BackColor = RGB(255, 255, 255)
-'        .BorderStyle = fmBorderStyleSingle
-'        .BorderColor = RGB(209, 213, 219)
-'    End With
-'End Sub
+Private Sub ConfigurerLabel(ctrl As MSForms.Label, caption As String, left As Long, top As Long)
+    With ctrl
+        .caption = caption
+        .Font.Name = "Segoe UI"
+        .Font.Size = 10
+        .ForeColor = RGB(55, 65, 81)
+        .BackStyle = fmBackStyleTransparent
+        .width = 180
+        .Height = 18
+        .top = top
+        .left = left
+    End With
+End Sub
+
+Private Sub ConfigurerTextBox(ctrl As MSForms.TextBox, left As Long, top As Long, Optional width As Long = 300)
+    With ctrl
+        .Font.Name = "Segoe UI"
+        .Font.Size = 10
+        .width = width
+        .Height = 22
+        .top = top
+        .left = left
+        .BackColor = RGB(255, 255, 255)
+        .BorderStyle = fmBorderStyleSingle
+        .BorderColor = RGB(209, 213, 219)
+    End With
+End Sub
 
 Private Sub btnValider_Click()
     ' Vérification des champs obligatoires
