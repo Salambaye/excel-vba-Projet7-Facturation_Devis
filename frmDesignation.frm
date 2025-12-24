@@ -30,8 +30,8 @@ Private Sub UserForm_Initialize()
     With Me
         .BackColor = RGB(245, 248, 250)          ' Bleu-gris très clair
         
-'        .width = 600
-'        .Height = 300
+        '        .width = 600
+        '        .Height = 300
         .caption = "Choix du mode de facturation"
     End With
     
@@ -59,7 +59,7 @@ Private Sub UserForm_Initialize()
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
         .BackColor = RGB(218, 233, 248)
-'        .BackStyle = fmBackStyleOpaque
+        '        .BackStyle = fmBackStyleOpaque
         .width = 580
         .Height = 120
         .top = 70
@@ -79,7 +79,7 @@ Private Sub UserForm_Initialize()
         .Height = 60
         .top = 30
         .left = 50
-        .Value = True                             ' Sélectionné par défaut
+        .Value = True                            ' Sélectionné par défaut
     End With
     
     ' ==================== OPTION MODIFICATION ====================
@@ -190,3 +190,4 @@ End Sub
 Private Sub lblTitre_Click()
     ' Nécessaire pour éviter les erreurs lors du clic sur le Label
 End Sub
+
