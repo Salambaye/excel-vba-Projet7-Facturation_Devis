@@ -165,7 +165,7 @@ Private Sub UserForm_Initialize()
         .AddItem "5.5"
         .AddItem "10"
         .AddItem "20"
-        .ListIndex = 1  ' 10% par défaut
+        .ListIndex = 1                           ' 10% par défaut
     End With
     
     ' Bouton Ajouter ligne
@@ -178,8 +178,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 130
         .Height = 32
-'        .top = topPos
-'        .left = 390
+        '        .top = topPos
+        '        .left = 390
     End With
     
     ' Liste des lignes ajoutées
@@ -213,8 +213,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 130
         .Height = 32
-'        .top = 450
-'        .left = 540
+        '        .top = 450
+        '        .left = 540
     End With
     
     ' Boutons principaux
@@ -379,4 +379,5 @@ End Sub
 
 Private Sub lblTitre_Click()
 End Sub
+
 
