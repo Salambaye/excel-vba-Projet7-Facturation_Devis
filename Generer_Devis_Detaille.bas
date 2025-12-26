@@ -354,15 +354,24 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Font.Size = 20
         .Cells(ligne, 1).Font.Name = "Times New Roman"
         
-        .Cells(ligne, 6).Value = "Signature"
-        .Cells(ligne, 6).Font.Italic = True
-        .Cells(ligne, 6).Font.Size = 20
-        .Cells(ligne, 6).Font.Name = "Times New Roman"
+        .Cells(ligne, 5).Value = "Signature"
+        .Cells(ligne, 5).Font.Italic = True
+        .Cells(ligne, 5).Font.Size = 20
+        .Cells(ligne, 5).Font.Name = "Times New Roman"
+        
+        ligne = ligne + 3
+        With .Range(.Cells(ligne, 1), .Cells(ligne + 4, 6))
+            .Merge
+            .Value = "Siège social : 27 rue Carnot 91300 MASSY" & vbCrLf & "Tél standard : 01 64 54 27 99" & vbCrLf & _
+                    "Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros" & vbCrLf & _
+                    "RCS Evry - NAF 7739Z" & vbCrLf & "N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr"
+            .Font.Italic = True
+            .Font.Size = 16
+            .Font.Name = "Arial"
+        End With
     End With
 End Sub
 
-'    Siège social : 27 rue Carnot 91300 MASSY
-'   Tél standard : 01 64 54 27 99
-'Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros
-'RCS Evry - NAF 7739Z
-'N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr
+'    Siège social : 27 rue Carnot 91300 MASSY & vbCrLf & Tél standard : 01 64 54 27 99 & vbCrLf & _
+Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros & vbCrLf & _
+RCS Evry - NAF 7739Z & vbCrLf & N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr
