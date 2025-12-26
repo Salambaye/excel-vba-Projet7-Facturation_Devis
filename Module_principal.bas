@@ -222,19 +222,19 @@ Sub InitialiserDevis()
     '    ActiveSheet.PageSetup.PaperSize = xlPaperA4
        
       ' Configurer la mise en page pour A4
-    With wsDevis.PageSetup
-        .PaperSize = xlPaperA4                ' Format A4
-        .Orientation = xlPortrait             ' Orientation portrait (ou xlLandscape pour paysage)
-        .Zoom = False                         ' Désactiver le zoom automatique
-        .FitToPagesWide = 1                   ' Ajuster à 1 page en largeur
-        .FitToPagesTall = 1                   ' Ajuster à 1 page en hauteur
-        .LeftMargin = Application.InchesToPoints(0.5)  ' Marge gauche
-        .RightMargin = Application.InchesToPoints(0.5) ' Marge droite
-        .TopMargin = Application.InchesToPoints(0.75)   ' Marge haute
-        .BottomMargin = Application.InchesToPoints(0.75) ' Marge basse
-        .HeaderMargin = Application.InchesToPoints(0.3)
-        .FooterMargin = Application.InchesToPoints(0.3)
-    End With
+'    With wsDevis.PageSetup
+'        .PaperSize = xlPaperA4                ' Format A4
+'        .Orientation = xlPortrait             ' Orientation portrait (ou xlLandscape pour paysage)
+'        .Zoom = False                         ' Désactiver le zoom automatique
+'        .FitToPagesWide = 1                   ' Ajuster à 1 page en largeur
+'        .FitToPagesTall = 1                   ' Ajuster à 1 page en hauteur
+'        .LeftMargin = Application.InchesToPoints(0.5)  ' Marge gauche
+'        .RightMargin = Application.InchesToPoints(0.5) ' Marge droite
+'        .TopMargin = Application.InchesToPoints(0.75)   ' Marge haute
+'        .BottomMargin = Application.InchesToPoints(0.75) ' Marge basse
+'        .HeaderMargin = Application.InchesToPoints(0.3)
+'        .FooterMargin = Application.InchesToPoints(0.3)
+'    End With
     
     ' Copier le logo si disponible
     On Error Resume Next
@@ -246,14 +246,32 @@ Sub InitialiserDevis()
             wsDevis.Paste
             Set copieImg = wsDevis.Shapes(wsDevis.Shapes.Count)
             With copieImg
-                .top = wsDevis.Range("B2").top
-                .left = wsDevis.Range("B2").left
+                .top = wsDevis.Range("A2").top
+                .left = wsDevis.Range("A2").left
                 .LockAspectRatio = msoTrue
-                .Height = 50
+                .Height = 60
             End With
         End If
     End If
     On Error GoTo 0
+    
+    ' Configurer la mise en page pour A4 et plusieurs pages si nécessaire
+    With wsDevis.PageSetup
+        .PaperSize = xlPaperA4
+        .Orientation = xlPortrait
+        .Zoom = False
+        ' Laisser Excel gérer le nombre de pages
+        .LeftMargin = Application.InchesToPoints(0.5)
+        .RightMargin = Application.InchesToPoints(0.5)
+        .TopMargin = Application.InchesToPoints(0.75)
+        .BottomMargin = Application.InchesToPoints(0.75)
+    End With
+
+    ' Ajustement automatique des colonnes et lignes
+'    With wsDevis
+'        .Columns("A:D").AutoFit
+'        .Rows.AutoFit
+'    End With
    
     Call FormaterEntete
 End Sub
@@ -261,9 +279,15 @@ End Sub
 Sub FormaterEntete()
     With wsDevis
         ' En-tête du devis
-        .Cells(3, 3).Value = "Devis N° " & refUEBeep
-        .Cells(3, 3).Font.Bold = True
-        .Cells(3, 3).Font.Size = 14
+        .Range("C3:D3").Merge
+        .Range("C3:D3").Value = "Devis N° " & refUEBeep
+        .Range("C3:D3").Font.Bold = True
+        .Range("C3:D3").Font.Size = 36
+        .Range("C3:D3").Font.Name = "Aptos Narrow"
+'        .Cells(3, 3).Font.Bold = True
+'        .Cells(3, 3).Font.Size = 36
+'        .Cells(3, 3).Font.Name = "Aptos Narrow"
+        Rows("3:3").RowHeight = 46.5
         
         ' Informations Ista
         .Cells(6, 1).Value = "Ista Comptage Immobilier Services"
@@ -271,6 +295,8 @@ Sub FormaterEntete()
         .Cells(8, 1).Value = "91300 MASSY"
         
         .Cells(7, 4).Value = "Date : " & Format(Now, "dd/mm/yyyy")
+        .Cells(7, 4).Font.Name = "Arial"
+        .Cells(7, 4).Font.Size = 20
         
         .Cells(11, 1).Value = "Dossier généré par : Olivier Contat"
         .Cells(12, 1).Value = "Téléphone : 06.73.47.65.06"
@@ -300,14 +326,20 @@ Sub FormaterEntete()
         .Cells(23, 2).Value = presentationProjet
         
         ' Mise en forme
-        .Range("A6:A23").Font.Name = "Calibri"
-        .Range("A6:A23").Font.Size = 11
-        .Range("D10:D17").Font.Name = "Calibri"
-        .Range("D10:D17").Font.Size = 11
+        .Range("A6:A8").Font.Name = "Aptos Narrow"
+        .Range("A6:A8").Font.Size = 16
+        .Range("D10:F23").Font.Name = "Arial"
+        .Range("D10:F23").Font.Size = 20
         
+'         .Range("A6:A23").Font.Name = "Calibri"
+'        .Range("A6:A23").Font.Size = 11
+'
         ' Largeur des colonnes
-        .Columns("A:A").ColumnWidth = 50
-        .Columns("D:D").ColumnWidth = 40
+        .Columns("A:A").ColumnWidth = 74.5
+        .Columns("B:B").ColumnWidth = 9.25
+        .Columns("C:C").ColumnWidth = 25.63
+        .Columns("D:D").ColumnWidth = 17.13
+        .Columns("E:E").ColumnWidth = 24.75
     End With
 End Sub
 
