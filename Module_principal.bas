@@ -102,7 +102,7 @@ Sub Facturation_Devis()
     Set wsTarifGenerique = wbTarification.Worksheets("Tarif générique 2025 ")
     Set wsTarifPlomberie = wbTarification.Worksheets("Tarif travaux Plomberie")
     Set wsTarifChauffage = wbTarification.Worksheets("Tarif travaux Chauffage")
-'    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif vente de vannes")
+    '    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif vente de vannes")
     Set wsTarifClient = wbTarification.Worksheets("Tarif Client compteurs d'eau")
     Set wsTarifPassage = wbTarification.Worksheets("Tarif passage supplémentaire")
     On Error GoTo 0
@@ -120,10 +120,10 @@ Sub Facturation_Devis()
         MsgBox "La feuille 'Tarif travaux Chauffage' n'existe pas dans Tarification", vbCritical
         GoTo Fin
     End If
-'    If wsTarifVenteDeVannes Is Nothing Then
-'        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
-'        GoTo Fin
-'    End If
+    '    If wsTarifVenteDeVannes Is Nothing Then
+    '        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
+    '        GoTo Fin
+    '    End If
     If wsTarifClient Is Nothing Then
         MsgBox "La feuille 'Tarif Client compteurs d'eau' n'existe pas dans Tarification", vbCritical
         GoTo Fin
@@ -219,6 +219,22 @@ Sub InitialiserDevis()
     Set wsDevis = wbDevis.Worksheets(1)
     wsDevis.Name = "Devis Travaux"
     wsDevis.Tab.Color = RGB(242, 206, 239)
+    '    ActiveSheet.PageSetup.PaperSize = xlPaperA4
+       
+      ' Configurer la mise en page pour A4
+    With wsDevis.PageSetup
+        .PaperSize = xlPaperA4                ' Format A4
+        .Orientation = xlPortrait             ' Orientation portrait (ou xlLandscape pour paysage)
+        .Zoom = False                         ' Désactiver le zoom automatique
+        .FitToPagesWide = 1                   ' Ajuster à 1 page en largeur
+        .FitToPagesTall = 1                   ' Ajuster à 1 page en hauteur
+        .LeftMargin = Application.InchesToPoints(0.5)  ' Marge gauche
+        .RightMargin = Application.InchesToPoints(0.5) ' Marge droite
+        .TopMargin = Application.InchesToPoints(0.75)   ' Marge haute
+        .BottomMargin = Application.InchesToPoints(0.75) ' Marge basse
+        .HeaderMargin = Application.InchesToPoints(0.3)
+        .FooterMargin = Application.InchesToPoints(0.3)
+    End With
     
     ' Copier le logo si disponible
     On Error Resume Next
@@ -294,3 +310,4 @@ Sub FormaterEntete()
         .Columns("D:D").ColumnWidth = 40
     End With
 End Sub
+
