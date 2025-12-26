@@ -313,7 +313,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Font.Name = "Arial"
         
         ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
+        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement"
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
@@ -321,7 +321,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
         
         ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
+        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
@@ -331,12 +331,33 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         ligne = ligne + 4
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
-            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
+            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention:"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 20
+            .Font.Size = 24
             .Font.Name = "Times New Roman"
         End With
+        
+        ligne = ligne + 1
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
+            .Merge
+            .Value = " Bon pour accord et exécution des travaux"
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 24
+            .Font.Name = "Times New Roman"
+        End With
+        
+        ligne = ligne + 2
+        .Cells(ligne, 1).Value = "Date"
+        .Cells(ligne, 1).Font.Italic = True
+        .Cells(ligne, 1).Font.Size = 20
+        .Cells(ligne, 1).Font.Name = "Times New Roman"
+        
+        .Cells(ligne, 6).Value = "Signature"
+        .Cells(ligne, 6).Font.Italic = True
+        .Cells(ligne, 6).Font.Size = 20
+        .Cells(ligne, 6).Font.Name = "Times New Roman"
     End With
 End Sub
 
