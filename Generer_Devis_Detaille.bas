@@ -1,8 +1,8 @@
 Attribute VB_Name = "Generer_Devis_Detaille"
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Module : Génération du Devis en Mode Détaillé
 ' Description : Génère un devis avec fournitures, main d'œuvre et déplacement détaillés
-'========================================================================================
+'----------------------------------------------------------------------------------------
 
 Sub GenererDevisDetaille()
     Dim ligneDebut As Long
@@ -11,7 +11,7 @@ Sub GenererDevisDetaille()
     ligneDebut = 26
     ligneActuelle = ligneDebut
     
-    ' ========== Afficher le formulaire de sélection détaillée ==========
+    ' ---------- Afficher le formulaire de sélection détaillée ----------
     frmDevisDetaille.Annule = True
     frmDevisDetaille.Show
     
@@ -21,12 +21,12 @@ Sub GenererDevisDetaille()
         Exit Sub
     End If
     
-    ' ========== Créer les en-têtes du tableau ==========
+    ' ---------- Créer les en-têtes du tableau ----------
     Call CreerEntetesTableauDetaille(ligneDebut)
     
     ligneActuelle = ligneDebut + 2
     
-    ' ========== Ajouter la description ==========
+    ' ---------- Ajouter la description ----------
     With wsDevis
         .Cells(ligneActuelle, 1).Value = descriptionDesignation
         .Cells(ligneActuelle, 1).Font.Bold = True
@@ -35,7 +35,7 @@ Sub GenererDevisDetaille()
         ligneActuelle = ligneActuelle + 1
     End With
     
-    ' ========== Variables pour les totaux ==========
+    ' ---------- Variables pour les totaux ----------
     Dim totalFournitures As Double
     Dim totalMainOeuvre As Double
     Dim totalDeplacement As Double
@@ -47,46 +47,46 @@ Sub GenererDevisDetaille()
     totalMainOeuvre = 0
     totalDeplacement = 0
     
-    ' ========== Ajouter les fournitures sélectionnées ==========
+    ' ---------- Ajouter les fournitures sélectionnées ----------
     If frmDevisDetaille.dictFournitures.Count > 0 Then
         ligneActuelle = AjouterFournitures(ligneActuelle, totalFournitures)
     End If
     
-    ' ========== Ajouter la main d'œuvre ==========
+    ' ---------- Ajouter la main d'œuvre ----------
     If frmDevisDetaille.dictMainOeuvre.Count > 0 Then
         ligneActuelle = AjouterMainOeuvre(ligneActuelle, totalMainOeuvre)
     End If
     
-    ' ========== Ajouter le déplacement ==========
+    ' ---------- Ajouter le déplacement ----------
     ligneActuelle = AjouterDeplacement(ligneActuelle, totalDeplacement)
     
-    ' ========== Ligne de séparation ==========
+    ' ---------- Ligne de séparation ----------
     ligneActuelle = ligneActuelle + 1
     
-    ' ========== Calcul des totaux ==========
+    ' ---------- Calcul des totaux ----------
     totalHT = totalFournitures + totalMainOeuvre + totalDeplacement
     montantTVA = totalHT * 0.1                   ' TVA 10%
     totalTTC = totalHT + montantTVA
     
-    ' ========== Afficher les totaux ==========
+    ' ---------- Afficher les totaux ----------
     Call AfficherTotaux(ligneActuelle, totalHT, montantTVA, totalTTC)
     
     Unload frmDevisDetaille
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Créer les en-têtes du tableau détaillé
-'========================================================================================
+'----------------------------------------------------------------------------------------
 Sub CreerEntetesTableauDetaille(ligne As Long)
     With wsDevis
-        ' ========== En-têtes ==========
+        ' ---------- En-têtes ----------
         .Cells(ligne, 1).Value = "Désignation"
         .Cells(ligne, 2).Value = "Fournitures"
         .Cells(ligne, 3).Value = "Main d'œuvre"
         .Cells(ligne, 4).Value = "Déplacement"
         .Cells(ligne, 5).Value = "Total HT"
         
-        ' ========== Mise en forme des en-têtes ==========
+        ' ---------- Mise en forme des en-têtes ----------
         With .Range(.Cells(ligne, 1), .Cells(ligne, 5))
             .Font.Bold = True
             .Font.Size = 11
@@ -98,7 +98,7 @@ Sub CreerEntetesTableauDetaille(ligne As Long)
             .Borders.Weight = xlMedium
         End With
         
-        ' ========== Largeur des colonnes ==========
+        ' ---------- Largeur des colonnes ----------
         .Columns("A:A").ColumnWidth = 50
         .Columns("B:B").ColumnWidth = 18
         .Columns("C:C").ColumnWidth = 18
@@ -107,9 +107,9 @@ Sub CreerEntetesTableauDetaille(ligne As Long)
     End With
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Ajouter les fournitures au tableau
-'========================================================================================
+'----------------------------------------------------------------------------------------
 Function AjouterFournitures(ligneDebut As Long, ByRef total As Double) As Long
     Dim ligne As Long
     Dim item As Variant
@@ -120,7 +120,7 @@ Function AjouterFournitures(ligneDebut As Long, ByRef total As Double) As Long
     
     ligne = ligneDebut
     
-    ' ========== Parcourir le dictionnaire des fournitures ==========
+    ' ---------- Parcourir le dictionnaire des fournitures ----------
     For Each item In frmDevisDetaille.dictFournitures.Keys
         With wsDevis
             ' Extraire la désignation (enlever le préfixe [PLOMB], [CHAUF], etc.)
@@ -147,7 +147,7 @@ Function AjouterFournitures(ligneDebut As Long, ByRef total As Double) As Long
             
             total = total + montant
             
-            ' ========== Bordures ==========
+            ' ---------- Bordures ----------
             .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.LineStyle = xlContinuous
             .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.Color = RGB(200, 200, 200)
             
@@ -158,9 +158,9 @@ Function AjouterFournitures(ligneDebut As Long, ByRef total As Double) As Long
     AjouterFournitures = ligne
 End Function
 
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Ajouter la main d'œuvre au tableau
-'========================================================================================
+'----------------------------------------------------------------------------------------
 Function AjouterMainOeuvre(ligneDebut As Long, ByRef total As Double) As Long
     Dim ligne As Long
     Dim item As Variant
@@ -171,7 +171,7 @@ Function AjouterMainOeuvre(ligneDebut As Long, ByRef total As Double) As Long
     
     ligne = ligneDebut
     
-    ' ========== Parcourir le dictionnaire de la main d'œuvre ==========
+    ' ---------- Parcourir le dictionnaire de la main d'œuvre ----------
     For Each item In frmDevisDetaille.dictMainOeuvre.Keys
         With wsDevis
             ' Extraire la désignation
@@ -198,7 +198,7 @@ Function AjouterMainOeuvre(ligneDebut As Long, ByRef total As Double) As Long
             
             total = total + montant
             
-            ' ========== Bordures ==========
+            ' ---------- Bordures ----------
             .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.LineStyle = xlContinuous
             .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.Color = RGB(200, 200, 200)
             
@@ -209,9 +209,9 @@ Function AjouterMainOeuvre(ligneDebut As Long, ByRef total As Double) As Long
     AjouterMainOeuvre = ligne
 End Function
 
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Ajouter le déplacement au tableau
-'========================================================================================
+'----------------------------------------------------------------------------------------
 Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
     Dim ligne As Long
     Dim prixDeplacement As Double
@@ -219,7 +219,7 @@ Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
     
     ligne = ligneDebut
     
-    ' ========== Récupérer le prix du déplacement depuis Tarif générique 2025 ==========
+    ' ---------- Récupérer le prix du déplacement depuis Tarif générique 2025 ----------
     On Error Resume Next
     prixDeplacement = wsTarifGenerique.Cells(4, 5).Value ' Colonne E, ligne 4
     tvaDeplacement = wsTarifGenerique.Cells(4, 4).Value ' Colonne D, ligne 4
@@ -239,7 +239,7 @@ Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
         
         total = prixDeplacement
         
-        ' ========== Bordures ==========
+        ' ---------- Bordures ----------
         .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.LineStyle = xlContinuous
         .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.Color = RGB(200, 200, 200)
         
@@ -249,15 +249,15 @@ Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
     AjouterDeplacement = ligne
 End Function
 
-'========================================================================================
+'----------------------------------------------------------------------------------------
 ' Afficher les totaux HT, TVA et TTC
-'========================================================================================
+'----------------------------------------------------------------------------------------
 Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, totalTTC As Double)
     With wsDevis
-        ' ========== Ligne vide ==========
+        ' ---------- Ligne vide ----------
         ligne = ligne + 1
         
-        ' ========== Total HT ==========
+        ' ---------- Total HT ----------
         .Cells(ligne, 4).Value = "Total HT :"
         .Cells(ligne, 4).Font.Bold = True
         .Cells(ligne, 4).Font.Size = 11
@@ -270,7 +270,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         
         ligne = ligne + 1
         
-        ' ========== TVA 10% ==========
+        ' ---------- TVA 10% ----------
         .Cells(ligne, 4).Value = "TVA 10% :"
         .Cells(ligne, 4).Font.Bold = True
         .Cells(ligne, 4).Font.Size = 11
@@ -283,7 +283,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         
         ligne = ligne + 1
         
-        ' ========== Total TTC ==========
+        ' ---------- Total TTC ----------
         .Cells(ligne, 4).Value = "TOTAL TTC :"
         .Cells(ligne, 4).Font.Bold = True
         .Cells(ligne, 4).Font.Size = 12
@@ -296,7 +296,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 5).HorizontalAlignment = xlRight
         .Cells(ligne, 5).Font.Color = RGB(0, 0, 255)
         
-        ' ========== Bordure pour le total TTC ==========
+        ' ---------- Bordure pour le total TTC ----------
         With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
             '            .Borders(xlEdgeTop).LineStyle = xlContinuous
             '            .Borders(xlEdgeTop).Weight = xlThick
@@ -305,7 +305,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
             .Interior.Color = RGB(217, 217, 217)
         End With
         
-        ' ========== Texte de fin ==========
+        ' ---------- Texte de fin ----------
         ligne = ligne + 3
         .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
         .Cells(ligne, 1).Font.Italic = True
@@ -336,6 +336,8 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
             .Font.Bold = True
             .Font.Size = 24
             .Font.Name = "Times New Roman"
+                        .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
         End With
         
         ligne = ligne + 1
@@ -346,6 +348,8 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
             .Font.Bold = True
             .Font.Size = 24
             .Font.Name = "Times New Roman"
+                        .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
         End With
         
         ligne = ligne + 2
@@ -359,16 +363,24 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 5).Font.Size = 20
         .Cells(ligne, 5).Font.Name = "Times New Roman"
         
-        ligne = ligne + 3
+        ligne = ligne + 1
+        Rows(ligne).RowHeight = 123
+        
+        ligne = ligne + 2
         With .Range(.Cells(ligne, 1), .Cells(ligne + 4, 6))
             .Merge
             .Value = "Siège social : 27 rue Carnot 91300 MASSY" & vbCrLf & "Tél standard : 01 64 54 27 99" & vbCrLf & _
                     "Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros" & vbCrLf & _
                     "RCS Evry - NAF 7739Z" & vbCrLf & "N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr"
-            .Font.Italic = True
             .Font.Size = 16
             .Font.Name = "Arial"
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
         End With
+        
+        ligne = ligne + 4
+        Rows(ligne).RowHeight = 87.75
+        
     End With
 End Sub
 
