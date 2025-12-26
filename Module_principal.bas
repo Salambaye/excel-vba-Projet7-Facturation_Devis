@@ -279,14 +279,15 @@ End Sub
 Sub FormaterEntete()
     With wsDevis
         ' En-tête du devis
-        .Range("C3:D3").Merge
-        .Range("C3:D3").Value = "Devis N° " & refUEBeep
-        .Range("C3:D3").Font.Bold = True
-        .Range("C3:D3").Font.Size = 36
-        .Range("C3:D3").Font.Name = "Aptos Narrow"
-'        .Cells(3, 3).Font.Bold = True
-'        .Cells(3, 3).Font.Size = 36
-'        .Cells(3, 3).Font.Name = "Aptos Narrow"
+'        .Range("C3:D3").Merge
+'        .Range("C3:D3").Value = "Devis N° " & refUEBeep
+'        .Range("C3:D3").Font.Bold = True
+'        .Range("C3:D3").Font.Size = 36
+'        .Range("C3:D3").Font.Name = "Aptos Narrow"
+        .Cells(3, 3).Value = "Devis N° " & refUEBeep
+        .Cells(3, 3).Font.Bold = True
+        .Cells(3, 3).Font.Size = 36
+        .Cells(3, 3).Font.Name = "Aptos Narrow"
         Rows("3:3").RowHeight = 46.5
         
         ' Informations Ista
@@ -324,12 +325,15 @@ Sub FormaterEntete()
         ' Présentation
         .Cells(23, 1).Value = "Présentation du projet : "
         .Cells(23, 2).Value = presentationProjet
+        .Range("B23:E23").Merge
+        .Range("B23:E23").Value = presentationProjet
+        .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
         
         ' Mise en forme
         .Range("A6:A8").Font.Name = "Aptos Narrow"
         .Range("A6:A8").Font.Size = 16
-        .Range("D10:F23").Font.Name = "Arial"
-        .Range("D10:F23").Font.Size = 20
+        .Range("A10:F26").Font.Name = "Arial"
+        .Range("A10:F26").Font.Size = 20
         
 '         .Range("A6:A23").Font.Name = "Calibri"
 '        .Range("A6:A23").Font.Size = 11
