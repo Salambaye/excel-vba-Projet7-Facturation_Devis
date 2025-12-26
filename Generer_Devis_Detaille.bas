@@ -65,7 +65,7 @@ Sub GenererDevisDetaille()
     
     ' ========== Calcul des totaux ==========
     totalHT = totalFournitures + totalMainOeuvre + totalDeplacement
-    montantTVA = totalHT * 0.1 ' TVA 10%
+    montantTVA = totalHT * 0.1                   ' TVA 10%
     totalTTC = totalHT + montantTVA
     
     ' ========== Afficher les totaux ==========
@@ -226,7 +226,7 @@ Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
     On Error GoTo 0
     
     If prixDeplacement = 0 Then
-        prixDeplacement = 50 ' Valeur par défaut si non trouvée
+        prixDeplacement = 50                     ' Valeur par défaut si non trouvée
     End If
     
     With wsDevis
@@ -298,10 +298,10 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         
         ' ========== Bordure pour le total TTC ==========
         With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
-'            .Borders(xlEdgeTop).LineStyle = xlContinuous
-'            .Borders(xlEdgeTop).Weight = xlThick
-'            .Borders(xlEdgeBottom).LineStyle = xlDouble
-'            .Borders(xlEdgeBottom).Weight = xlThick
+            '            .Borders(xlEdgeTop).LineStyle = xlContinuous
+            '            .Borders(xlEdgeTop).Weight = xlThick
+            '            .Borders(xlEdgeBottom).LineStyle = xlDouble
+            '            .Borders(xlEdgeBottom).Weight = xlThick
             .Interior.Color = RGB(217, 217, 217)
         End With
         
@@ -310,32 +310,32 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
+        .Cells(ligne, 1).Font.Name = "Arial"
         
         ligne = ligne + 1
         .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
-'        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        .Cells(ligne, 1).Font.Name = "Arial"
+        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
         
-         ligne = ligne + 1
+        ligne = ligne + 1
         .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
-'        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        .Cells(ligne, 1).Font.Name = "Arial"
+        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
 
         ligne = ligne + 4
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
-        .Merge
-        .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
-        .Font.Italic = True
-        .Font.Bold = True
-        .Font.Size = 24
-        .Font.Name = "Times New Roman"
+            .Merge
+            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 20
+            .Font.Name = "Times New Roman"
         End With
     End With
 End Sub
