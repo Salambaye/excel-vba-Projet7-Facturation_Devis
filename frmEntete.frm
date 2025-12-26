@@ -358,13 +358,13 @@ Private Sub btnValider_Click()
     End If
     
     If Trim(txtCpChantier.Value) = "" Then
-        MsgBox "Veuillez saisir la référence UEX.", vbExclamation
+        MsgBox "Veuillez saisir le code postal du chantier.", vbExclamation
         txtCpChantier.SetFocus
         Exit Sub
     End If
     
     If Trim(txtVilleChantier.Value) = "" Then
-        MsgBox "Veuillez saisir la référence UEX.", vbExclamation
+        MsgBox "Veuillez saisir la ville du chantier.", vbExclamation
         txtVilleChantier.SetFocus
         Exit Sub
     End If
