@@ -19,8 +19,11 @@ Public Annule As Boolean
 Public dictLignes As Object
 Private compteurLignes As Long
 
+Private Sub lstLignes_Click()
+
+End Sub
+
 Private Sub UserForm_Activate()
- 
     With Application
         LargeurFenetre = .width
         HauteurFenetre = .Height
@@ -62,7 +65,7 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .BackColor = RGB(30, 58, 138)
         .TextAlign = fmTextAlignCenter
-        .width = 630
+        .width = 730
         .Height = 35
         .top = 5
         .left = 10
@@ -75,8 +78,8 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
-        .width = 630
-        .Height = 180
+        .width = 730
+        .Height = 200
         .top = 50
         .left = 10
     End With
@@ -85,7 +88,7 @@ Private Sub UserForm_Initialize()
     Dim leftLabel As Long
     Dim leftControl As Long
     
-    topPos = 75
+    topPos = 25
     leftLabel = 25
     leftControl = 150
     
@@ -99,19 +102,19 @@ Private Sub UserForm_Initialize()
         .top = topPos
         .left = leftLabel
         .width = 120
-        .Height = 150
+'        .Height = 150
     End With
     
     With txtDesignation
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-        '        .width = 450
-        .Height = 22
+        .width = 560
+        .Height = 75
         .top = topPos
         .left = leftControl
     End With
     
-    topPos = topPos + 35
+    topPos = topPos + 95
     
     ' Quantité
     With lblQuantite
@@ -171,17 +174,27 @@ Private Sub UserForm_Initialize()
         .width = 120
     End With
     
-    With cboTVA
+'    With cboTVA
+'        .Font.Name = "Segoe UI"
+'        .Font.Size = 10
+'        .width = 100
+'        .Height = 22
+'        .top = topPos
+'        .left = leftControl
+'        .AddItem "5.5"
+'        .AddItem "10"
+'        .AddItem "20"
+'        .ListIndex = 1                           ' 10% par défaut
+'    End With
+    
+    With txtTVA
         .Font.Name = "Segoe UI"
         .Font.Size = 10
         .width = 100
         .Height = 22
         .top = topPos
         .left = leftControl
-        .AddItem "5.5"
-        .AddItem "10"
-        .AddItem "20"
-        .ListIndex = 1                           ' 10% par défaut
+        .Value = "10"
     End With
     
     ' Bouton Ajouter ligne
@@ -194,8 +207,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 130
         .Height = 32
-        '        .top = topPos
-        '        .left = 390
+                .top = topPos - 35
+                .left = 760
     End With
     
     ' Liste des lignes ajoutées
@@ -205,17 +218,17 @@ Private Sub UserForm_Initialize()
         .Font.Size = 11
         .Font.Bold = True
         .ForeColor = RGB(30, 58, 138)
-        .top = 245
+        .top = 265
         .left = 15
-        .width = 630
+        .width = 730
     End With
     
     With lstLignes
         .Font.Name = "Consolas"
         .Font.Size = 9
-        .width = 630
-        .Height = 170
-        .top = 270
+        .width = 1000 '630
+        .Height = 1000 '170
+        .top = 295
         .left = 10
     End With
     
@@ -229,8 +242,8 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 130
         .Height = 32
-        '        .top = 450
-        '        .left = 540
+                .top = 330
+                .left = 760
     End With
     
     ' Boutons principaux

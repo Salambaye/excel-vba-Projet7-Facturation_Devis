@@ -68,7 +68,7 @@ Private Sub UserForm_Initialize()
     ' ==================== LISTE FOURNITURES ====================
     With lstFournitures
         .Font.Name = "Segoe UI"
-        .Font.Size = 9
+        .Font.Size = 10
         '        .width = 320
         '        .Height = 250
         '        .top = 90
@@ -231,94 +231,197 @@ End Sub
 ' Chargement de la liste des fournitures depuis les feuilles Tarification
 '========================================================================================
 Private Sub ChargerListeFournitures()
-    '    Dim ws As Worksheet
-    ''    Dim derniereLigne As Long
+    On Error GoTo GestionErreur
+    
+    Dim ws As Worksheet
+    Dim derniereLigne As Long
     Dim i As Long
     Dim item As String
+    Dim colA As String
+    Dim colB As String
+    Dim prix As Variant
     
     lstFournitures.Clear
     
     ' ========== PLOMBERIE ==========
     Set ws = wsTarifPlomberie
-    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    For i = 4 To derniereLigne
-        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
-            lstFournitures.AddItem "[PLOMB] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-        End If
-    Next i
+    If Not ws Is Nothing Then
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 4 To derniereLigne
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 5).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                If colB <> "" Then
+                    item = "[PLOMB] " & colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €"
+                Else
+                    item = "[PLOMB] " & colA & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                End If
+                lstFournitures.AddItem item
+            End If
+        Next i
+    End If
     
     ' ========== CHAUFFAGE ==========
     Set ws = wsTarifChauffage
-    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    For i = 4 To derniereLigne
-        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
-            lstFournitures.AddItem "[CHAUF] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-        End If
-    Next i
+    If Not ws Is Nothing Then
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 4 To derniereLigne
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 5).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                If colB <> "" Then
+                    item = "[CHAUF] " & colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €"
+                Else
+                    item = "[CHAUF] " & colA & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                End If
+                lstFournitures.AddItem item
+            End If
+        Next i
+    End If
     
     ' ========== COMPTEURS D'EAU ==========
     Set ws = wsTarifClient
-    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    For i = 4 To derniereLigne
-        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
-            lstFournitures.AddItem "[COMPT] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-        End If
-    Next i
-    
-        ' ========== VANNES ==========
-        Set ws = wsTarifVenteDeVannes
+    If Not ws Is Nothing Then
         derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
         For i = 4 To derniereLigne
-            If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-                item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
-                lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 5).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                If colB <> "" Then
+                    item = "[COMPT] " & colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €"
+                Else
+                    item = "[COMPT] " & colA & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                End If
+                lstFournitures.AddItem item
             End If
         Next i
+    End If
+    
+    ' ========== VANNES ==========
+    Set ws = wsTarifVenteDeVannes
+    If Not ws Is Nothing Then
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 4 To derniereLigne
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 5).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                Dim diametre As String
+                diametre = CStr(Trim(ws.Cells(i, 3).Value & ""))
+                If colB <> "" Then
+                    item = "[VANNE] " & colA & " (" & colB & ") Ø" & diametre & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                Else
+                    item = "[VANNE] " & colA & " Ø" & diametre & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                End If
+                lstFournitures.AddItem item
+            End If
+        Next i
+    End If
+    
+    Exit Sub
+    
+GestionErreur:
+    MsgBox "Erreur lors du chargement des fournitures : " & Err.Description, vbExclamation
 End Sub
 
 '========================================================================================
 ' Chargement de la liste de la main d'œuvre depuis les feuilles Tarification
 '========================================================================================
 Private Sub ChargerListeMainOeuvre()
+    On Error GoTo GestionErreur
+    
     Dim ws As Worksheet
     Dim derniereLigne As Long
     Dim i As Long
     Dim item As String
+    Dim colA As String
+    Dim colB As String
+    Dim prix As Variant
     
     lstMainOeuvre.Clear
     
     ' ========== TARIF GÉNÉRIQUE ==========
     Set ws = wsTarifGenerique
-    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    For i = 7 To derniereLigne
-        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
-            lstMainOeuvre.AddItem item & " - " & Format(ws.Cells(i, 3).Value, "#,##0.00") & " €/h"
-        End If
-    Next i
+    If Not ws Is Nothing Then
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 7 To derniereLigne
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 3).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                If colB <> "" Then
+                    item = colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €/h"
+                Else
+                    item = colA & " - " & Format(CDbl(prix), "#,##0.00") & " €/h"
+                End If
+                lstMainOeuvre.AddItem item
+            End If
+        Next i
+    End If
     
     ' ========== TARIF PASSAGE SUPPLÉMENTAIRE ==========
     Set ws = wsTarifPassage
-    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    For i = 4 To derniereLigne
-        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
-            lstMainOeuvre.AddItem "[PASSAGE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-        End If
-    Next i
+    If Not ws Is Nothing Then
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 4 To derniereLigne
+            colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
+            colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
+            prix = ws.Cells(i, 5).Value
+            
+            If prix = "" Then prix = 0
+            If Not IsNumeric(prix) Then prix = 0
+            
+            If colA <> "" Or colB <> "" Then
+                If colB <> "" Then
+                    item = "[PASSAGE] " & colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €"
+                Else
+                    item = "[PASSAGE] " & colA & " - " & Format(CDbl(prix), "#,##0.00") & " €"
+                End If
+                lstMainOeuvre.AddItem item
+            End If
+        Next i
+    End If
+    
+    Exit Sub
+    
+GestionErreur:
+    MsgBox "Erreur lors du chargement de la main d'œuvre : " & Err.Description, vbExclamation
 End Sub
 
 '========================================================================================
 ' Ajouter les fournitures sélectionnées au devis
 '========================================================================================
 Private Sub btnAjouterFourniture_Click()
+    On Error GoTo GestionErreur
+    
     Dim i As Long
     Dim item As String
     Dim prix As Double
     Dim quantite As Long
+    Dim dictItem As Object
     
     If txtQteFournitures.Value = "" Or Not IsNumeric(txtQteFournitures.Value) Then
         MsgBox "Veuillez saisir une quantité valide.", vbExclamation
@@ -332,26 +435,38 @@ Private Sub btnAjouterFourniture_Click()
             item = lstFournitures.List(i)
             prix = ExtrairePrix(item)
             
-            If Not dictFournitures.Exists(item) Then
-                dictFournitures.Add item, CreateObject("Scripting.Dictionary")
-                dictFournitures(item)("quantite") = quantite
-                dictFournitures(item)("prix") = prix
-                lstElementsAjoutes.AddItem "[F] " & item & " x" & quantite
+            If prix > 0 Then
+                If Not dictFournitures.Exists(item) Then
+                    Set dictItem = CreateObject("Scripting.Dictionary")
+                    dictItem("quantite") = quantite
+                    dictItem("prix") = prix
+                    Set dictFournitures(item) = dictItem
+                    lstElementsAjoutes.AddItem "[F] " & item & " x" & quantite
+                End If
+            Else
+                MsgBox "Impossible d'extraire le prix pour : " & item, vbExclamation
             End If
         End If
     Next i
     
     txtQteFournitures.Value = "1"
+    Exit Sub
+    
+GestionErreur:
+    MsgBox "Erreur lors de l'ajout de fourniture : " & Err.Description, vbExclamation
 End Sub
 
 '========================================================================================
 ' Ajouter la main d'œuvre sélectionnée au devis
 '========================================================================================
 Private Sub btnAjouterMainOeuvre_Click()
+    On Error GoTo GestionErreur
+    
     Dim i As Long
     Dim item As String
     Dim prix As Double
     Dim heures As Double
+    Dim dictItem As Object
     
     If txtHeuresMainOeuvre.Value = "" Or Not IsNumeric(txtHeuresMainOeuvre.Value) Then
         MsgBox "Veuillez saisir un nombre d'heures valide.", vbExclamation
@@ -365,36 +480,30 @@ Private Sub btnAjouterMainOeuvre_Click()
             item = lstMainOeuvre.List(i)
             prix = ExtrairePrix(item)
             
-            If Not dictMainOeuvre.Exists(item) Then
-                dictMainOeuvre.Add item, CreateObject("Scripting.Dictionary")
-                dictMainOeuvre(item)("heures") = heures
-                dictMainOeuvre(item)("prix") = prix
-                lstElementsAjoutes.AddItem "[MO] " & item & " x" & heures & "h"
+            If prix > 0 Then
+                If Not dictMainOeuvre.Exists(item) Then
+                    Set dictItem = CreateObject("Scripting.Dictionary")
+                    dictItem("heures") = heures
+                    dictItem("prix") = prix
+                    Set dictMainOeuvre(item) = dictItem
+                    lstElementsAjoutes.AddItem "[MO] " & item & " x" & heures & "h"
+                End If
+            Else
+                MsgBox "Impossible d'extraire le prix pour : " & item, vbExclamation
             End If
         End If
     Next i
     
     txtHeuresMainOeuvre.Value = "1"
+    Exit Sub
+    
+GestionErreur:
+    MsgBox "Erreur lors de l'ajout de main d'œuvre : " & Err.Description, vbExclamation
 End Sub
 
 '========================================================================================
 ' Extraire le prix d'une ligne de texte
 '========================================================================================
-'Private Function ExtrairePrix(texte As String) As Double
-'    Dim pos As Long
-'    Dim prixStr As String
-'
-'    pos = InStrRev(texte, " - ")
-'    If pos > 0 Then
-'        prixStr = Mid(texte, pos + 3)
-'        prixStr = Replace(prixStr, " €", "")
-'        prixStr = Replace(prixStr, " €/h", "")
-'        prixStr = Replace(prixStr, ",", ".")
-'        prixStr = Replace(prixStr, " ", "")
-'        ExtrairePrix = CDbl(prixStr)
-'    End If
-'End Function
-
 Private Function ExtrairePrix(texte As String) As Double
     On Error GoTo GestionErreur
     
@@ -402,30 +511,32 @@ Private Function ExtrairePrix(texte As String) As Double
     Dim prixStr As String
     Dim i As Integer
     Dim resultat As String
+    Dim caractere As String
     
-    ' Initialiser la valeur de retour
     ExtrairePrix = 0
     
-    ' Trouver la position du séparateur " - "
+    ' Trouver le dernier " - "
     pos = InStrRev(texte, " - ")
     If pos = 0 Then Exit Function
     
-    ' Extraire la partie prix
+    ' Extraire la partie après " - "
     prixStr = Mid(texte, pos + 3)
     
-    ' Nettoyer la chaîne en gardant uniquement chiffres, point et virgule
+    ' Nettoyer : garder uniquement chiffres, point et virgule
     resultat = ""
     For i = 1 To Len(prixStr)
-        Select Case Mid(prixStr, i, 1)
-        Case "0" To "9", ".", ","
-            resultat = resultat & Mid(prixStr, i, 1)
-        End Select
+        caractere = Mid(prixStr, i, 1)
+        If caractere >= "0" And caractere <= "9" Then
+            resultat = resultat & caractere
+        ElseIf caractere = "," Or caractere = "." Then
+            resultat = resultat & caractere
+        End If
     Next i
     
-    ' Remplacer la virgule par un point (séparateur décimal)
+    ' Remplacer virgule par point
     resultat = Replace(resultat, ",", ".")
     
-    ' Vérifier qu'on a bien une valeur
+    ' Convertir en nombre
     If Len(resultat) > 0 And IsNumeric(resultat) Then
         ExtrairePrix = CDbl(resultat)
     End If
@@ -478,3 +589,255 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     End If
 End Sub
 
+'
+''========================================================================================
+'' Chargement de la liste des fournitures depuis les feuilles Tarification
+''========================================================================================
+'Private Sub ChargerListeFournitures()
+'    '    Dim ws As Worksheet
+'    ''    Dim derniereLigne As Long
+'    Dim i As Long
+'    Dim item As String
+'
+'    lstFournitures.Clear
+'
+'    ' ========== PLOMBERIE ==========
+'    Set ws = wsTarifPlomberie
+'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'    For i = 4 To derniereLigne
+'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
+'            lstFournitures.AddItem "[PLOMB] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+'        End If
+'    Next i
+'
+'    ' ========== CHAUFFAGE ==========
+'    Set ws = wsTarifChauffage
+'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'    For i = 4 To derniereLigne
+'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
+'            lstFournitures.AddItem "[CHAUF] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+'        End If
+'    Next i
+'
+'    ' ========== COMPTEURS D'EAU ==========
+'    Set ws = wsTarifClient
+'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'    For i = 4 To derniereLigne
+'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
+'            lstFournitures.AddItem "[COMPT] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+'        End If
+'    Next i
+'
+'        ' ========== VANNES ==========
+'        Set ws = wsTarifVenteDeVannes
+'        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'        For i = 4 To derniereLigne
+'            If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'                item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
+'                lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+'            End If
+'        Next i
+'End Sub
+'
+''========================================================================================
+'' Chargement de la liste de la main d'œuvre depuis les feuilles Tarification
+''========================================================================================
+'Private Sub ChargerListeMainOeuvre()
+'    Dim ws As Worksheet
+'    Dim derniereLigne As Long
+'    Dim i As Long
+'    Dim item As String
+'
+'    lstMainOeuvre.Clear
+'
+'    ' ========== TARIF GÉNÉRIQUE ==========
+'    Set ws = wsTarifGenerique
+'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'    For i = 7 To derniereLigne
+'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
+'            lstMainOeuvre.AddItem item & " - " & Format(ws.Cells(i, 3).Value, "#,##0.00") & " €/h"
+'        End If
+'    Next i
+'
+'    ' ========== TARIF PASSAGE SUPPLÉMENTAIRE ==========
+'    Set ws = wsTarifPassage
+'    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+'    For i = 4 To derniereLigne
+'        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+'            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value)
+'            lstMainOeuvre.AddItem "[PASSAGE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+'        End If
+'    Next i
+'End Sub
+'
+''========================================================================================
+'' Ajouter les fournitures sélectionnées au devis
+''========================================================================================
+'Private Sub btnAjouterFourniture_Click()
+'    Dim i As Long
+'    Dim item As String
+'    Dim prix As Double
+'    Dim quantite As Long
+'
+'    If txtQteFournitures.Value = "" Or Not IsNumeric(txtQteFournitures.Value) Then
+'        MsgBox "Veuillez saisir une quantité valide.", vbExclamation
+'        Exit Sub
+'    End If
+'
+'    quantite = CLng(txtQteFournitures.Value)
+'
+'    For i = 0 To lstFournitures.ListCount - 1
+'        If lstFournitures.Selected(i) Then
+'            item = lstFournitures.List(i)
+'            prix = ExtrairePrix(item)
+'
+'            If Not dictFournitures.Exists(item) Then
+'                dictFournitures.Add item, CreateObject("Scripting.Dictionary")
+'                dictFournitures(item)("quantite") = quantite
+'                dictFournitures(item)("prix") = prix
+'                lstElementsAjoutes.AddItem "[F] " & item & " x" & quantite
+'            End If
+'        End If
+'    Next i
+'
+'    txtQteFournitures.Value = "1"
+'End Sub
+'
+''========================================================================================
+'' Ajouter la main d'œuvre sélectionnée au devis
+''========================================================================================
+'Private Sub btnAjouterMainOeuvre_Click()
+'    Dim i As Long
+'    Dim item As String
+'    Dim prix As Double
+'    Dim heures As Double
+'
+'    If txtHeuresMainOeuvre.Value = "" Or Not IsNumeric(txtHeuresMainOeuvre.Value) Then
+'        MsgBox "Veuillez saisir un nombre d'heures valide.", vbExclamation
+'        Exit Sub
+'    End If
+'
+'    heures = CDbl(txtHeuresMainOeuvre.Value)
+'
+'    For i = 0 To lstMainOeuvre.ListCount - 1
+'        If lstMainOeuvre.Selected(i) Then
+'            item = lstMainOeuvre.List(i)
+'            prix = ExtrairePrix(item)
+'
+'            If Not dictMainOeuvre.Exists(item) Then
+'                dictMainOeuvre.Add item, CreateObject("Scripting.Dictionary")
+'                dictMainOeuvre(item)("heures") = heures
+'                dictMainOeuvre(item)("prix") = prix
+'                lstElementsAjoutes.AddItem "[MO] " & item & " x" & heures & "h"
+'            End If
+'        End If
+'    Next i
+'
+'    txtHeuresMainOeuvre.Value = "1"
+'End Sub
+'
+''========================================================================================
+'' Extraire le prix d'une ligne de texte
+''========================================================================================
+''Private Function ExtrairePrix(texte As String) As Double
+''    Dim pos As Long
+''    Dim prixStr As String
+''
+''    pos = InStrRev(texte, " - ")
+''    If pos > 0 Then
+''        prixStr = Mid(texte, pos + 3)
+''        prixStr = Replace(prixStr, " €", "")
+''        prixStr = Replace(prixStr, " €/h", "")
+''        prixStr = Replace(prixStr, ",", ".")
+''        prixStr = Replace(prixStr, " ", "")
+''        ExtrairePrix = CDbl(prixStr)
+''    End If
+''End Function
+'
+'Private Function ExtrairePrix(texte As String) As Double
+'    On Error GoTo GestionErreur
+'
+'    Dim pos As Long
+'    Dim prixStr As String
+'    Dim i As Integer
+'    Dim resultat As String
+'
+'    ' Initialiser la valeur de retour
+'    ExtrairePrix = 0
+'
+'    ' Trouver la position du séparateur " - "
+'    pos = InStrRev(texte, " - ")
+'    If pos = 0 Then Exit Function
+'
+'    ' Extraire la partie prix
+'    prixStr = Mid(texte, pos + 3)
+'
+'    ' Nettoyer la chaîne en gardant uniquement chiffres, point et virgule
+'    resultat = ""
+'    For i = 1 To Len(prixStr)
+'        Select Case Mid(prixStr, i, 1)
+'        Case "0" To "9", ".", ","
+'            resultat = resultat & Mid(prixStr, i, 1)
+'        End Select
+'    Next i
+'
+'    ' Remplacer la virgule par un point (séparateur décimal)
+'    resultat = Replace(resultat, ",", ".")
+'
+'    ' Vérifier qu'on a bien une valeur
+'    If Len(resultat) > 0 And IsNumeric(resultat) Then
+'        ExtrairePrix = CDbl(resultat)
+'    End If
+'
+'    Exit Function
+'
+'GestionErreur:
+'    Debug.Print "Erreur ExtrairePrix : " & Err.Description & " - Texte : " & texte
+'    ExtrairePrix = 0
+'End Function
+'
+''========================================================================================
+'' Supprimer un élément de la liste
+''========================================================================================
+'Private Sub btnSupprimerElement_Click()
+'    If lstElementsAjoutes.ListIndex >= 0 Then
+'        lstElementsAjoutes.RemoveItem lstElementsAjoutes.ListIndex
+'    End If
+'End Sub
+'
+''========================================================================================
+'' Valider et générer le devis
+''========================================================================================
+'Private Sub btnValider_Click()
+'    If dictFournitures.Count = 0 And dictMainOeuvre.Count = 0 Then
+'        MsgBox "Veuillez ajouter au moins un élément au devis.", vbExclamation
+'        Exit Sub
+'    End If
+'
+'    Me.Annule = False
+'    Me.Hide
+'End Sub
+'
+''========================================================================================
+'' Annuler l'opération
+''========================================================================================
+'Private Sub btnAnnuler_Click()
+'    Me.Annule = True
+'    Me.Hide
+'End Sub
+'
+''========================================================================================
+'' Gestion de la fermeture du formulaire
+''========================================================================================
+'Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+'    If CloseMode = vbFormControlMenu Then
+'        Me.Annule = True
+'        Me.Hide
+'        Cancel = True
+'    End If
+'End Sub
+'
