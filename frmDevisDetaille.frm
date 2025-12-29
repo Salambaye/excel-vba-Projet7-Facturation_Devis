@@ -24,6 +24,10 @@ Public dictMainOeuvre As Object
 Dim ws As Worksheet
 Dim derniereLigne As Long
 
+Private Sub lblElementsAjoutes_Click()
+
+End Sub
+
 Private Sub UserForm_Initialize()
     Me.Annule = False
     Me.StartUpPosition = 0
@@ -38,7 +42,7 @@ Private Sub UserForm_Initialize()
     With Me
         .BackColor = RGB(245, 248, 250)
         .width = 1000
-        .Height = 1000
+        .Height = 800
         .caption = "Devis détaillé - Sélection des éléments"
     End With
     
@@ -264,15 +268,15 @@ Private Sub ChargerListeFournitures()
         End If
     Next i
     
-    '    ' ========== VANNES ==========
-    '    Set ws = wsTarifVenteDeVannes
-    '    derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-    '    For i = 4 To derniereLigne
-    '        If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
-    '            item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
-    '            lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
-    '        End If
-    '    Next i
+        ' ========== VANNES ==========
+        Set ws = wsTarifVenteDeVannes
+        derniereLigne = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+        For i = 4 To derniereLigne
+            If Trim(ws.Cells(i, 1).Value) <> "" Or Trim(ws.Cells(i, 2).Value) <> "" Then
+                item = Trim(ws.Cells(i, 1).Value) & " " & Trim(ws.Cells(i, 2).Value) & " Ø" & ws.Cells(i, 3).Value
+                lstFournitures.AddItem "[VANNE] " & item & " - " & Format(ws.Cells(i, 5).Value, "#,##0.00") & " €"
+            End If
+        Next i
 End Sub
 
 '========================================================================================

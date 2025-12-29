@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmEntete 
    Caption         =   "Données de l'entête"
-   ClientHeight    =   14130
+   ClientHeight    =   13680
    ClientLeft      =   180
    ClientTop       =   705
-   ClientWidth     =   24930
+   ClientWidth     =   18165
    OleObjectBlob   =   "frmEntete.frx":0000
    StartUpPosition =   1  'CenterOwner
 End
@@ -175,20 +175,35 @@ Private Sub lblNomClient_Click()
 
 End Sub
 
+
+Private Sub UserForm_Activate()
+
+    With Application
+        LargeurFenetre = .width
+        HauteurFenetre = .Height
+        PositionGauche = .left
+        PositionHaut = .top
+    End With
+    With Me
+        .left = (PositionGauche + LargeurFenetre) - ((LargeurFenetre + .width) / 2)
+        .top = (PositionHaut + HauteurFenetre) - ((HauteurFenetre + .Height) / 2)
+    End With
+End Sub
+
 Private Sub UserForm_Initialize()
     Me.Annule = False
-    Me.StartUpPosition = 0
-    Me.left = Application.left + (Application.width - Me.width) / 2
-    Me.top = Application.top + (Application.Height - Me.Height) / 2
+'    Me.StartUpPosition = 0
+'    Me.left = Application.left + (Application.width - Me.width) / 2
+'    Me.top = Application.top + (Application.Height - Me.Height) / 2
     
     ' Configuration du UserForm
     With Me
         .BackColor = RGB(245, 248, 250)
-        '        .width = 520
-        '        .Height = 620
+                .width = 920.25
+                .Height = 670
         .caption = "Informations du devis"
     End With
-    
+
     ' Label de titre
     With lblTitre
         .caption = "Informations du devis"
@@ -308,6 +323,8 @@ Private Sub UserForm_Initialize()
         '        .left = 270
     End With
 End Sub
+
+
 
 'Private Sub ConfigurerLabel(ctrl As MSForms.Label, caption As String, left As Long, top As Long)
 '    With ctrl

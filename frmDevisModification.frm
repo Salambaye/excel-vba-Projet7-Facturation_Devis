@@ -19,11 +19,27 @@ Public Annule As Boolean
 Public dictLignes As Object
 Private compteurLignes As Long
 
+Private Sub UserForm_Activate()
+ 
+    With Application
+        LargeurFenetre = .width
+        HauteurFenetre = .Height
+        PositionGauche = .left
+        PositionHaut = .top
+    End With
+    With Me
+        .left = (PositionGauche + LargeurFenetre) - ((LargeurFenetre + .width) / 2)
+        .top = (PositionHaut + HauteurFenetre) - ((HauteurFenetre + .Height) / 2)
+    End With
+ 
+End Sub
+
+
 Private Sub UserForm_Initialize()
     Me.Annule = False
-    Me.StartUpPosition = 0
-    Me.left = Application.left + (Application.width - Me.width) / 2
-    Me.top = Application.top + (Application.Height - Me.Height) / 2
+'    Me.StartUpPosition = 0
+'    Me.left = Application.left + (Application.width - Me.width) / 2
+'    Me.top = Application.top + (Application.Height - Me.Height) / 2
     
     ' Initialiser le dictionnaire
     Set dictLignes = CreateObject("Scripting.Dictionary")
@@ -89,7 +105,7 @@ Private Sub UserForm_Initialize()
     With txtDesignation
         .Font.Name = "Segoe UI"
         .Font.Size = 10
-        .width = 450
+        '        .width = 450
         .Height = 22
         .top = topPos
         .left = leftControl
@@ -221,26 +237,27 @@ Private Sub UserForm_Initialize()
     With btnValider
         .caption = "Générer le devis"
         .Font.Name = "Segoe UI"
-        .Font.Size = 11
+        .Font.Size = 12
         .Font.Bold = True
-        .BackColor = RGB(34, 197, 94)
-        .ForeColor = RGB(255, 255, 255)
+        '        .BackColor = RGB(34, 197, 94)
+        '        .ForeColor = RGB(255, 255, 255)
         .width = 150
         .Height = 35
         .top = 490
-        .left = 140
+        .left = 350
     End With
     
     With btnAnnuler
         .caption = "Annuler"
         .Font.Name = "Segoe UI"
-        .Font.Size = 11
-        .BackColor = RGB(239, 68, 68)
-        .ForeColor = RGB(255, 255, 255)
+        .Font.Size = 12
+        .Font.Bold = True
+        '        .BackColor = RGB(239, 68, 68)
+        '        .ForeColor = RGB(255, 255, 255)
         .width = 150
         .Height = 35
         .top = 490
-        .left = 310
+        .left = 150
     End With
 End Sub
 
