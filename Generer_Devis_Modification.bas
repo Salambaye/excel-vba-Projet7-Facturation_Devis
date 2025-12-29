@@ -23,14 +23,6 @@ Sub GenererDevisModification()
     
     ligneActuelle = ligneDebut + 1
     
-    ' Ajouter la description
-    With wsDevis
-        .Cells(ligneActuelle, 1).Value = descriptionDesignation
-        .Cells(ligneActuelle, 1).Font.Bold = True
-        .Cells(ligneActuelle, 1).Font.Size = 16
-        ligneActuelle = ligneActuelle + 1
-    End With
-    
     ' Variables pour les totaux
     Dim totalHT As Double
     Dim montantTVA As Double
@@ -61,26 +53,19 @@ Sub CreerEntetesTableauModification(ligne As Long)
         .Cells(ligne, 1).Value = "Désignation"
         .Cells(ligne, 2).Value = "Quantité"
         .Cells(ligne, 3).Value = "Prix unitaire HT"
-        .Cells(ligne, 4).Value = "TVA %"
-        .Cells(ligne, 5).Value = "Total HT"
+        .Cells(ligne, 4).Value = "Total HT"
+        .Cells(ligne, 5).Value = "TVA %"
+        .Cells(ligne, 6).Value = "Total TTC"
         
         ' Mise en forme des en-têtes
-        With .Range(.Cells(ligne, 1), .Cells(ligne, 5))
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Font.Bold = True
-'            .Font.Size = 11
             .Interior.Color = RGB(79, 129, 189)
             .Font.Color = RGB(255, 255, 255)
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
             .Borders.LineStyle = xlContinuous
         End With
-        
-        ' Largeur des colonnes
-'        .Columns("A:A").ColumnWidth = 50
-'        .Columns("B:B").ColumnWidth = 12
-'        .Columns("C:C").ColumnWidth = 18
-'        .Columns("D:D").ColumnWidth = 10
-'        .Columns("E:E").ColumnWidth = 15
     End With
 End Sub
 
@@ -93,6 +78,7 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
     Dim tva As Double
     Dim montantHT As Double
     Dim montantTVA As Double
+    Dim montantTTC As Double
     
     ligne = ligneDebut
     
@@ -106,20 +92,24 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
             
             montantHT = quantite * prixUnitaire
             montantTVA = montantHT * (tva / 100)
+            montantTTC = montantHT + montantTVA
             
             ' Remplir la ligne
             .Cells(ligne, 1).Value = designation
+            .Cells(ligne, 1).WrapText = True
             .Cells(ligne, 2).Value = quantite
             .Cells(ligne, 2).HorizontalAlignment = xlCenter
             .Cells(ligne, 3).Value = Format(prixUnitaire, "#,##0.00") & " €"
             .Cells(ligne, 3).HorizontalAlignment = xlRight
-            .Cells(ligne, 4).Value = tva & " %"
-            .Cells(ligne, 4).HorizontalAlignment = xlCenter
-            .Cells(ligne, 5).Value = Format(montantHT, "#,##0.00") & " €"
-            .Cells(ligne, 5).HorizontalAlignment = xlRight
+            .Cells(ligne, 4).Value = Format(montantHT, "#,##0.00") & " €"
+            .Cells(ligne, 4).HorizontalAlignment = xlRight
+            .Cells(ligne, 5).Value = tva & " %"
+            .Cells(ligne, 5).HorizontalAlignment = xlCenter
+            .Cells(ligne, 6).Value = Format(montantTTC, "#,##0.00") & " €"
+            .Cells(ligne, 6).HorizontalAlignment = xlRight
             
             ' Bordures
-            .Range(.Cells(ligne, 1), .Cells(ligne, 5)).Borders.LineStyle = xlContinuous
+            .Range(.Cells(ligne, 1), .Cells(ligne, 6)).Borders.LineStyle = xlContinuous
             
             totalHT = totalHT + montantHT
             totalTVA = totalTVA + montantTVA
@@ -137,108 +127,129 @@ Sub AfficherTotauxModification(ligne As Long, totalHT As Double, montantTVA As D
         ligne = ligne + 1
         
         ' Total HT
-        .Cells(ligne, 4).Value = "Total HT :"
-        .Cells(ligne, 4).Font.Bold = True
-        .Cells(ligne, 4).HorizontalAlignment = xlRight
-        .Cells(ligne, 5).Value = Format(totalHT, "#,##0.00") & " €"
+        .Cells(ligne, 5).Value = "Total HT :"
         .Cells(ligne, 5).Font.Bold = True
         .Cells(ligne, 5).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Value = Format(totalHT, "#,##0.00") & " €"
+        .Cells(ligne, 6).Font.Bold = True
+        .Cells(ligne, 6).HorizontalAlignment = xlRight
         
         ligne = ligne + 1
         
         ' TVA
-        .Cells(ligne, 4).Value = "TVA :"
-        .Cells(ligne, 4).Font.Bold = True
-        .Cells(ligne, 4).HorizontalAlignment = xlRight
-        .Cells(ligne, 5).Value = Format(montantTVA, "#,##0.00") & " €"
+        .Cells(ligne, 5).Value = "TVA :"
         .Cells(ligne, 5).Font.Bold = True
         .Cells(ligne, 5).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Value = Format(montantTVA, "#,##0.00") & " €"
+        .Cells(ligne, 6).Font.Bold = True
+        .Cells(ligne, 6).HorizontalAlignment = xlRight
         
         ligne = ligne + 1
         
         ' Total TTC
-        .Cells(ligne, 4).Value = "TOTAL TTC :"
-        .Cells(ligne, 4).Font.Bold = True
-        .Cells(ligne, 4).Font.Size = 12
-        .Cells(ligne, 4).HorizontalAlignment = xlRight
-        .Cells(ligne, 5).Value = Format(totalTTC, "#,##0.00") & " €"
+        .Cells(ligne, 5).Value = "TOTAL TTC :"
         .Cells(ligne, 5).Font.Bold = True
         .Cells(ligne, 5).Font.Size = 12
         .Cells(ligne, 5).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Value = Format(totalTTC, "#,##0.00") & " €"
+        .Cells(ligne, 6).Font.Bold = True
+        .Cells(ligne, 6).Font.Size = 12
+        .Cells(ligne, 6).HorizontalAlignment = xlRight
         
         ' Bordure pour le total TTC
-        With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
-            '            .Borders(xlEdgeTop).LineStyle = xlContinuous
-            '            .Borders(xlEdgeTop).Weight = xlThick
-            '            .Borders(xlEdgeBottom).LineStyle = xlDouble
+        With .Range(.Cells(ligne, 5), .Cells(ligne, 6))
             .Interior.Color = RGB(217, 217, 217)
         End With
         
-        ' Texte de fin
-        '        ligne = ligne + 3
-        '        .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
-        ''        .Cells(ligne, 1).Font.Italic = True
-        '        .Cells(ligne, 1).Font.Size = 10
-        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-        '
-        '        ligne = ligne + 1
-        '        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
-        ''        .Cells(ligne, 1).Font.Italic = True
-        '        .Cells(ligne, 1).Font.Size = 10
-        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-        '
-        '         ligne = ligne + 1
-        '        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
-        ''        .Cells(ligne, 1).Font.Italic = True
-        '        .Cells(ligne, 1).Font.Size = 10
-        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-
+       ' ---------- Texte de fin ----------
         ligne = ligne + 3
         .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
-        
-        ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
-        .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Bold = True
-        .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
-        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-        
-        ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
-        .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Bold = True
-        .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Times New Roman"
-        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        .Cells(ligne, 1).Font.Name = "Arial"
+        Rows(ligne).RowHeight = 26.25
 
-        ligne = ligne + 4
+        ligne = ligne + 1
+        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement"
+        .Cells(ligne, 1).Font.Italic = True
+        .Cells(ligne, 1).Font.Bold = True
+        .Cells(ligne, 1).Font.Size = 16
+        .Cells(ligne, 1).Font.Name = "Arial"
+        Rows(ligne).RowHeight = 26.25
+
+        ligne = ligne + 1
+        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
+        .Cells(ligne, 1).Font.Italic = True
+        .Cells(ligne, 1).Font.Bold = True
+        .Cells(ligne, 1).Font.Size = 16
+        .Cells(ligne, 1).Font.Name = "Arial"
+        Rows(ligne).RowHeight = 26.25
+
+        ligne = ligne + 3
+        Rows(ligne).RowHeight = 54.75
+
+        ligne = ligne + 1
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
-            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
+            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention:"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 20
+            .Font.Size = 24
             .Font.Name = "Times New Roman"
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
         End With
+
+        ligne = ligne + 1
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
+            .Merge
+            .Value = " Bon pour accord et exécution des travaux"
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 24
+            .Font.Name = "Times New Roman"
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+        End With
+
+        ligne = ligne + 2
+        .Cells(ligne, 1).Value = "Date"
+        .Cells(ligne, 1).Font.Italic = True
+        .Cells(ligne, 1).Font.Size = 20
+        .Cells(ligne, 1).Font.Name = "Times New Roman"
+
+        .Cells(ligne, 5).Value = "Signature"
+        .Cells(ligne, 5).Font.Italic = True
+        .Cells(ligne, 5).Font.Size = 20
+        .Cells(ligne, 5).Font.Name = "Times New Roman"
+
+        ligne = ligne + 1
+        Rows(ligne).RowHeight = 123
+
+        ligne = ligne + 2
+        With .Range(.Cells(ligne, 1), .Cells(ligne + 4, 6))
+            .Merge
+            .Value = "Siège social : 27 rue Carnot 91300 MASSY" & vbCrLf & "Tél standard : 01 64 54 27 99" & vbCrLf & _
+                    "Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros" & vbCrLf & _
+                    "RCS Evry - NAF 7739Z" & vbCrLf & "N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr"
+            .Font.Size = 16
+            .Font.Name = "Arial"
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+        End With
+
+        ligne = ligne + 4
+        Rows(ligne).RowHeight = 87.75
     End With
- 
 End Sub
 
 Sub FinaliserDevis()
-    ' Ajustement automatique des lignes
-'    wsDevis.Rows.AutoFit
+    ' Ajustement automatique des lignes pour le retour à la ligne
+    wsDevis.Rows.AutoFit
     
     ' Zoom optimal
     wsDevis.Range("A1").Select
     ActiveWindow.Zoom = 55
-    
-'     With Worksheets("Devis Travaux").PageSetup
-'        .PaperSize = xlPaperA4
-'    End With
     
     ' Sauvegarde du fichier
     Dim nomFichier As String
@@ -253,44 +264,3 @@ Sub FinaliserDevis()
     End If
     On Error GoTo 0
 End Sub
-
-'Sub InsererImageSansChemin()
-'    Dim wsSource As Worksheet
-'    Dim wsDest As Worksheet
-'    Dim img As Shape
-'    Dim copieImg As Shape
-'
-'    ' Feuille où l'image est stockée (masquée)
-'    Set wsSource = ThisWorkbook.Sheets("Images")
-'
-'    ' Feuille où on veut insérer l'image
-'    Set wsDest = ThisWorkbook.Sheets("Macro")
-'
-'    ' Vérifier si l'image existe
-'    On Error Resume Next
-'    Set img = wsSource.Shapes("LogoStocke")
-'    On Error GoTo 0
-'
-'    If img Is Nothing Then
-'        MsgBox "L'image 'LogoStocke' n'existe pas dans la feuille 'Images'.", vbExclamation
-'        Exit Sub
-'    End If
-'
-'    ' Copier l'image depuis la feuille masquée
-'    img.Copy
-'
-'    ' Coller dans la feuille de destination
-'    wsDest.Paste
-'    Set copieImg = wsDest.Shapes(wsDest.Shapes.Count)
-'
-'    ' Positionner et redimensionner
-'    With copieImg
-'        .Top = wsDest.Range("B2").Top
-'        .Left = wsDest.Range("B2").Left
-'        .LockAspectRatio = msoTrue
-'        .Height = 50
-'    End With
-'
-'    MsgBox "Image insérée avec succès sans chemin externe.", vbInformation
-'End Sub
-'
