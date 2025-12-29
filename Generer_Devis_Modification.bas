@@ -21,13 +21,13 @@ Sub GenererDevisModification()
     ' Créer les en-têtes du tableau
     Call CreerEntetesTableauModification(ligneDebut)
     
-    ligneActuelle = ligneDebut + 2
+    ligneActuelle = ligneDebut + 1
     
     ' Ajouter la description
     With wsDevis
         .Cells(ligneActuelle, 1).Value = descriptionDesignation
         .Cells(ligneActuelle, 1).Font.Bold = True
-        .Cells(ligneActuelle, 1).Font.Size = 11
+        .Cells(ligneActuelle, 1).Font.Size = 16
         ligneActuelle = ligneActuelle + 1
     End With
     
@@ -67,7 +67,7 @@ Sub CreerEntetesTableauModification(ligne As Long)
         ' Mise en forme des en-têtes
         With .Range(.Cells(ligne, 1), .Cells(ligne, 5))
             .Font.Bold = True
-            .Font.Size = 11
+'            .Font.Size = 11
             .Interior.Color = RGB(79, 129, 189)
             .Font.Color = RGB(255, 255, 255)
             .HorizontalAlignment = xlCenter
@@ -76,11 +76,11 @@ Sub CreerEntetesTableauModification(ligne As Long)
         End With
         
         ' Largeur des colonnes
-        .Columns("A:A").ColumnWidth = 50
-        .Columns("B:B").ColumnWidth = 12
-        .Columns("C:C").ColumnWidth = 18
-        .Columns("D:D").ColumnWidth = 10
-        .Columns("E:E").ColumnWidth = 15
+'        .Columns("A:A").ColumnWidth = 50
+'        .Columns("B:B").ColumnWidth = 12
+'        .Columns("C:C").ColumnWidth = 18
+'        .Columns("D:D").ColumnWidth = 10
+'        .Columns("E:E").ColumnWidth = 15
     End With
 End Sub
 
@@ -168,30 +168,30 @@ Sub AfficherTotauxModification(ligne As Long, totalHT As Double, montantTVA As D
         
         ' Bordure pour le total TTC
         With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
-'            .Borders(xlEdgeTop).LineStyle = xlContinuous
-'            .Borders(xlEdgeTop).Weight = xlThick
-'            .Borders(xlEdgeBottom).LineStyle = xlDouble
+            '            .Borders(xlEdgeTop).LineStyle = xlContinuous
+            '            .Borders(xlEdgeTop).Weight = xlThick
+            '            .Borders(xlEdgeBottom).LineStyle = xlDouble
             .Interior.Color = RGB(217, 217, 217)
         End With
         
         ' Texte de fin
-'        ligne = ligne + 3
-'        .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
-''        .Cells(ligne, 1).Font.Italic = True
-'        .Cells(ligne, 1).Font.Size = 10
-''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-'
-'        ligne = ligne + 1
-'        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
-''        .Cells(ligne, 1).Font.Italic = True
-'        .Cells(ligne, 1).Font.Size = 10
-''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
-'
-'         ligne = ligne + 1
-'        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
-''        .Cells(ligne, 1).Font.Italic = True
-'        .Cells(ligne, 1).Font.Size = 10
-''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        '        ligne = ligne + 3
+        '        .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
+        ''        .Cells(ligne, 1).Font.Italic = True
+        '        .Cells(ligne, 1).Font.Size = 10
+        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        '
+        '        ligne = ligne + 1
+        '        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement."
+        ''        .Cells(ligne, 1).Font.Italic = True
+        '        .Cells(ligne, 1).Font.Size = 10
+        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        '
+        '         ligne = ligne + 1
+        '        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
+        ''        .Cells(ligne, 1).Font.Italic = True
+        '        .Cells(ligne, 1).Font.Size = 10
+        ''        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
 
         ligne = ligne + 3
         .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
@@ -205,24 +205,24 @@ Sub AfficherTotauxModification(ligne As Long, totalHT As Double, montantTVA As D
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
         .Cells(ligne, 1).Font.Name = "Times New Roman"
-'        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
         
-         ligne = ligne + 1
+        ligne = ligne + 1
         .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation."
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
         .Cells(ligne, 1).Font.Name = "Times New Roman"
-'        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
 
         ligne = ligne + 4
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
-        .Merge
-        .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
-        .Font.Italic = True
-        .Font.Bold = True
-        .Font.Size = 20
-        .Font.Name = "Times New Roman"
+            .Merge
+            .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention: "
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 20
+            .Font.Name = "Times New Roman"
         End With
     End With
  
@@ -230,11 +230,15 @@ End Sub
 
 Sub FinaliserDevis()
     ' Ajustement automatique des lignes
-    wsDevis.Rows.AutoFit
+'    wsDevis.Rows.AutoFit
     
     ' Zoom optimal
     wsDevis.Range("A1").Select
-    ActiveWindow.Zoom = 85
+    ActiveWindow.Zoom = 55
+    
+'     With Worksheets("Devis Travaux").PageSetup
+'        .PaperSize = xlPaperA4
+'    End With
     
     ' Sauvegarde du fichier
     Dim nomFichier As String
@@ -249,7 +253,6 @@ Sub FinaliserDevis()
     End If
     On Error GoTo 0
 End Sub
-
 
 'Sub InsererImageSansChemin()
 '    Dim wsSource As Worksheet

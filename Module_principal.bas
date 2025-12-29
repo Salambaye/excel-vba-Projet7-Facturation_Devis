@@ -1,5 +1,7 @@
 Attribute VB_Name = "Module_principal"
-'TEST
+'Salamata Nourou MBAYE - 29/12/2025 - Version 1.0
+'PROJET 7 - Facturation
+'Module_principal
 
 ' ____________Variables globales____________________
 Public wbDevis As Workbook
@@ -219,22 +221,7 @@ Sub InitialiserDevis()
     Set wsDevis = wbDevis.Worksheets(1)
     wsDevis.Name = "Devis Travaux"
     wsDevis.Tab.Color = RGB(242, 206, 239)
-    '    ActiveSheet.PageSetup.PaperSize = xlPaperA4
-       
-      ' Configurer la mise en page pour A4
-'    With wsDevis.PageSetup
-'        .PaperSize = xlPaperA4                ' Format A4
-'        .Orientation = xlPortrait             ' Orientation portrait (ou xlLandscape pour paysage)
-'        .Zoom = False                         ' Désactiver le zoom automatique
-'        .FitToPagesWide = 1                   ' Ajuster à 1 page en largeur
-'        .FitToPagesTall = 1                   ' Ajuster à 1 page en hauteur
-'        .LeftMargin = Application.InchesToPoints(0.5)  ' Marge gauche
-'        .RightMargin = Application.InchesToPoints(0.5) ' Marge droite
-'        .TopMargin = Application.InchesToPoints(0.75)   ' Marge haute
-'        .BottomMargin = Application.InchesToPoints(0.75) ' Marge basse
-'        .HeaderMargin = Application.InchesToPoints(0.3)
-'        .FooterMargin = Application.InchesToPoints(0.3)
-'    End With
+
     
     ' Copier le logo si disponible
     On Error Resume Next
@@ -299,7 +286,7 @@ Sub FormaterEntete()
         .Cells(7, 4).Font.Name = "Arial"
         .Cells(7, 4).Font.Size = 20
         
-        .Cells(11, 1).Value = "Dossier généré par : Olivier Contat"
+        .Cells(11, 1).Value = "Dossier géré par : Olivier Contat"
         .Cells(12, 1).Value = "Téléphone : 06.73.47.65.06"
         .Cells(13, 1).Value = "Adresse mail : ocontat@ista.fr"
         
@@ -310,7 +297,7 @@ Sub FormaterEntete()
         
         ' Références
         .Cells(16, 1).Value = "Référence client : " & refClient
-        .Cells(17, 1).Value = "N/Référence UEX + BEEP : " & refUEBeep
+        .Cells(17, 1).Value = "N/Référence UEX : " & refUEBeep
         
         ' Gestionnaire
         .Cells(15, 4).Value = "Gestionnaire : " & gestionnaire
@@ -322,18 +309,29 @@ Sub FormaterEntete()
         .Cells(20, 1).Value = "Code postal et ville : " & codePostalChantier & " " & villeChantier
         .Cells(21, 1).Value = "Emplacement travaux : " & emplacementTravaux
         
+         Rows("22:22").RowHeight = 33
+         Rows("23:23").RowHeight = 51.75
+         
         ' Présentation
         .Cells(23, 1).Value = "Présentation du projet : "
-        .Cells(23, 2).Value = presentationProjet
-        .Range("B23:E23").Merge
-        .Range("B23:E23").Value = presentationProjet
+        .Cells(23, 1).Font.Bold = True
+        .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
+'        .Cells(23, 2).Value = presentationProjet
+        .Range("B23:B23").Value = presentationProjet
+        .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
+
+'    .HorizontalAlignment = xlCenter
         .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
+                 .Range("B23:E23").VerticalAlignment = xlBottom
+
+        Rows("26:26").RowHeight = 26.25
         
         ' Mise en forme
         .Range("A6:A8").Font.Name = "Aptos Narrow"
         .Range("A6:A8").Font.Size = 16
         .Range("A10:F26").Font.Name = "Arial"
         .Range("A10:F26").Font.Size = 20
+        .Range("A11:A21").Font.Italic = True
         
 '         .Range("A6:A23").Font.Name = "Calibri"
 '        .Range("A6:A23").Font.Size = 11
