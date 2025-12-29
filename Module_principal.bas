@@ -36,6 +36,7 @@ Public wsTarifPassage As Worksheet
 Public modeDetaille As Boolean
 Public cheminSortie As String
 Public dossierSauvegarde As String
+Public numeroDevis As String
 
 Sub Facturation_Devis()
     '---------------------- Optimisation --------------------------
@@ -105,6 +106,7 @@ Sub Facturation_Devis()
     Set wsTarifPlomberie = wbTarification.Worksheets("Tarif travaux Plomberie")
     Set wsTarifChauffage = wbTarification.Worksheets("Tarif travaux Chauffage")
     '    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif vente de vannes")
+    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif")
     Set wsTarifClient = wbTarification.Worksheets("Tarif Client compteurs d'eau")
     Set wsTarifPassage = wbTarification.Worksheets("Tarif passage supplémentaire")
     On Error GoTo 0
@@ -122,10 +124,10 @@ Sub Facturation_Devis()
         MsgBox "La feuille 'Tarif travaux Chauffage' n'existe pas dans Tarification", vbCritical
         GoTo Fin
     End If
-    '    If wsTarifVenteDeVannes Is Nothing Then
-    '        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
-    '        GoTo Fin
-    '    End If
+        If wsTarifVenteDeVannes Is Nothing Then
+            MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
+            GoTo Fin
+        End If
     If wsTarifClient Is Nothing Then
         MsgBox "La feuille 'Tarif Client compteurs d'eau' n'existe pas dans Tarification", vbCritical
         GoTo Fin
@@ -176,6 +178,10 @@ Sub Facturation_Devis()
     modeDetaille = frmDesignation.optDetaille.Value
     Unload frmDesignation
     
+        ' Générer le numéro de devis
+    numeroDevis = GenererNumeroDevis()
+    
+    
     '------------------- Initialisation du devis -----------------------------------
     Call InitialiserDevis
     
@@ -210,6 +216,35 @@ Fin:
     Application.EnableEvents = True
     Application.DisplayAlerts = True
 End Sub
+
+Function GenererNumeroDevis() As String
+    Dim compteur As Long
+    Dim wsCompteur As Worksheet
+    Dim cheminCompteur As String
+    Dim wbCompteur As Workbook
+    
+    ' Chemin du fichier compteur dans le même dossier que le classeur actuel
+    cheminCompteur = ThisWorkbook.Path & "\CompteurDevis.txt"
+    
+    ' Lire le compteur depuis le fichier
+    On Error Resume Next
+    Open cheminCompteur For Input As #1
+    Input #1, compteur
+    Close #1
+    On Error GoTo 0
+    
+    ' Si le fichier n'existe pas, initialiser à 1
+    If compteur = 0 Then compteur = 1
+    
+    ' Générer le numéro
+    GenererNumeroDevis = refUEBeep & "-" & Format(compteur, "0000")
+    
+    ' Incrémenter et sauvegarder
+    compteur = compteur + 1
+'    Open cheminCompteur For Output As #1
+'    Print #1, compteur
+'    Close #1
+End Function
 
 Sub InitialiserDevis()
     Dim wsSource As Worksheet
@@ -247,6 +282,8 @@ Sub InitialiserDevis()
         .PaperSize = xlPaperA4
         .Orientation = xlPortrait
         .Zoom = False
+           .FitToPagesWide = 1
+        .FitToPagesTall = False
         ' Laisser Excel gérer le nombre de pages
         .LeftMargin = Application.InchesToPoints(0.5)
         .RightMargin = Application.InchesToPoints(0.5)
@@ -271,7 +308,7 @@ Sub FormaterEntete()
 '        .Range("C3:D3").Font.Bold = True
 '        .Range("C3:D3").Font.Size = 36
 '        .Range("C3:D3").Font.Name = "Aptos Narrow"
-        .Cells(3, 3).Value = "Devis N° " & refUEBeep
+        .Cells(3, 3).Value = "Devis N° " & numeroDevis
         .Cells(3, 3).Font.Bold = True
         .Cells(3, 3).Font.Size = 36
         .Cells(3, 3).Font.Name = "Aptos Narrow"
