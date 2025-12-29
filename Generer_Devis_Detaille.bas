@@ -24,13 +24,13 @@ Sub GenererDevisDetaille()
     ' ---------- Créer les en-têtes du tableau ----------
     Call CreerEntetesTableauDetaille(ligneDebut)
     
-    ligneActuelle = ligneDebut + 2
+    ligneActuelle = ligneDebut + 1
     
     ' ---------- Ajouter la description ----------
     With wsDevis
         .Cells(ligneActuelle, 1).Value = descriptionDesignation
         .Cells(ligneActuelle, 1).Font.Bold = True
-        .Cells(ligneActuelle, 1).Font.Size = 11
+        .Cells(ligneActuelle, 1).Font.Size = 16
         .Cells(ligneActuelle, 1).Font.Color = RGB(30, 58, 138)
         ligneActuelle = ligneActuelle + 1
     End With
@@ -89,7 +89,7 @@ Sub CreerEntetesTableauDetaille(ligne As Long)
         ' ---------- Mise en forme des en-têtes ----------
         With .Range(.Cells(ligne, 1), .Cells(ligne, 5))
             .Font.Bold = True
-            .Font.Size = 11
+'            .Font.Size = 11
             .Font.Color = RGB(255, 255, 255)
             .Interior.Color = RGB(79, 129, 189)
             .HorizontalAlignment = xlCenter
@@ -99,11 +99,11 @@ Sub CreerEntetesTableauDetaille(ligne As Long)
         End With
         
         ' ---------- Largeur des colonnes ----------
-        .Columns("A:A").ColumnWidth = 50
-        .Columns("B:B").ColumnWidth = 18
-        .Columns("C:C").ColumnWidth = 18
-        .Columns("D:D").ColumnWidth = 18
-        .Columns("E:E").ColumnWidth = 18
+'        .Columns("A:A").ColumnWidth = 50
+'        .Columns("B:B").ColumnWidth = 18
+'        .Columns("C:C").ColumnWidth = 18
+'        .Columns("D:D").ColumnWidth = 18
+'        .Columns("E:E").ColumnWidth = 18
     End With
 End Sub
 
@@ -231,7 +231,7 @@ Function AjouterDeplacement(ligneDebut As Long, ByRef total As Double) As Long
     
     With wsDevis
         .Cells(ligne, 1).Value = "Déplacement"
-        .Cells(ligne, 1).Font.Size = 10
+        .Cells(ligne, 1).Font.Size = 15
         
         .Cells(ligne, 4).Value = Format(prixDeplacement, "#,##0.00") & " €"
         .Cells(ligne, 4).HorizontalAlignment = xlRight
@@ -311,6 +311,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Size = 16
         .Cells(ligne, 1).Font.Name = "Arial"
+        Rows(ligne).RowHeight = 26.25
         
         ligne = ligne + 1
         .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement"
@@ -318,7 +319,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
         .Cells(ligne, 1).Font.Name = "Arial"
-        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        Rows(ligne).RowHeight = 26.25
         
         ligne = ligne + 1
         .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
@@ -326,9 +327,12 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
         .Cells(ligne, 1).Font.Bold = True
         .Cells(ligne, 1).Font.Size = 16
         .Cells(ligne, 1).Font.Name = "Arial"
-        '        .Cells(ligne, 1).Font.Color = RGB(100, 100, 100)
+        Rows(ligne).RowHeight = 26.25
+        
+        ligne = ligne + 3
+        Rows(ligne).RowHeight = 54.75
 
-        ligne = ligne + 4
+        ligne = ligne + 1
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
             .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention:"
@@ -336,7 +340,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
             .Font.Bold = True
             .Font.Size = 24
             .Font.Name = "Times New Roman"
-                        .HorizontalAlignment = xlCenter
+            .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         End With
         
@@ -348,7 +352,7 @@ Sub AfficherTotaux(ligne As Long, totalHT As Double, montantTVA As Double, total
             .Font.Bold = True
             .Font.Size = 24
             .Font.Name = "Times New Roman"
-                        .HorizontalAlignment = xlCenter
+            .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         End With
         
