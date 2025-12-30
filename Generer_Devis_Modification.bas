@@ -5,7 +5,7 @@ Sub GenererDevisModification()
     Dim ligneDebut As Long
     Dim ligneActuelle As Long
     
-    ligneDebut = 26
+    ligneDebut = 27
     ligneActuelle = ligneDebut
     
     ' Afficher le formulaire de modification
@@ -35,14 +35,27 @@ Sub GenererDevisModification()
         ligneActuelle = AjouterLignesModification(ligneActuelle, totalHT, montantTVA)
     End If
     
-    ' Ligne de séparation
-    ligneActuelle = ligneActuelle + 1
+    ' Compléter le tableau jusqu'à 15 lignes minimum
+    Dim ligneFinTableau As Long
+    ligneFinTableau = ligneDebut + 16  ' En-tête + 15 lignes de contenu
+    
+    ' Compléter avec des lignes vides si nécessaire
+    Do While ligneActuelle < ligneFinTableau
+        With wsDevis
+'            .Range(.Cells(ligneActuelle, 1), .Cells(ligneActuelle, 6)).Borders.LineStyle = xlContinuous
+            .Rows(ligneActuelle).RowHeight = 20
+        End With
+        ligneActuelle = ligneActuelle + 1
+    Loop
+    
+     ' Appliquer les bordures au tableau complet
+    Call AppliquerBorduresTableau(ligneDebut, ligneFinTableau)
     
     ' Calcul du total TTC
     totalTTC = totalHT + montantTVA
     
     ' Afficher les totaux
-    Call AfficherTotauxModification(ligneActuelle, totalHT, montantTVA, totalTTC)
+    Call AfficherTotauxModification(ligneFinTableau, totalHT, montantTVA, totalTTC)
     
     Unload frmDevisModification
 End Sub
@@ -51,21 +64,26 @@ Sub CreerEntetesTableauModification(ligne As Long)
     With wsDevis
         ' En-têtes
         .Cells(ligne, 1).Value = "Désignation"
-        .Cells(ligne, 2).Value = "Quantité"
-        .Cells(ligne, 3).Value = "Prix unitaire HT"
-        .Cells(ligne, 4).Value = "Total HT"
-        .Cells(ligne, 5).Value = "TVA %"
-        .Cells(ligne, 6).Value = "Total TTC"
+        .Cells(ligne, 2).Value = "Qté"
+        .Cells(ligne, 3).Value = "Prix unitaire(€)"
+        .Cells(ligne, 4).Value = "Total HT(€)"
+        .Cells(ligne, 5).Value = "TVA"
+        .Cells(ligne, 6).Value = "Total TTC(€)"
         
         ' Mise en forme des en-têtes
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Font.Bold = True
-            .Interior.Color = RGB(79, 129, 189)
-            .Font.Color = RGB(255, 255, 255)
+            .Font.Color = RGB(0, 0, 0)
+            .Font.Name = "Arial"
+            .Font.Size = 20
+            .Interior.Color = RGB(237, 242, 247)
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
             .Borders.LineStyle = xlContinuous
+            .Borders.Weight = xlMedium
         End With
+        
+        .Rows(ligne).RowHeight = 26.25
     End With
 End Sub
 
@@ -98,18 +116,22 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
             .Cells(ligne, 1).Value = designation
             .Cells(ligne, 1).WrapText = True
             .Cells(ligne, 2).Value = quantite
-            .Cells(ligne, 2).HorizontalAlignment = xlCenter
             .Cells(ligne, 3).Value = Format(prixUnitaire, "#,##0.00") & " €"
-            .Cells(ligne, 3).HorizontalAlignment = xlRight
             .Cells(ligne, 4).Value = Format(montantHT, "#,##0.00") & " €"
-            .Cells(ligne, 4).HorizontalAlignment = xlRight
             .Cells(ligne, 5).Value = tva & " %"
-            .Cells(ligne, 5).HorizontalAlignment = xlCenter
             .Cells(ligne, 6).Value = Format(montantTTC, "#,##0.00") & " €"
-            .Cells(ligne, 6).HorizontalAlignment = xlRight
             
-            ' Bordures
-            .Range(.Cells(ligne, 1), .Cells(ligne, 6)).Borders.LineStyle = xlContinuous
+            ' Bordures et mise en forme
+            With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
+                .Borders.LineStyle = xlContinuous
+                .Font.Name = "Arial"
+                .Font.Size = 18
+                .VerticalAlignment = xlCenter
+                .HorizontalAlignment = xlCenter
+            End With
+            
+            ' Alignement spécifique pour la désignation
+            .Cells(ligne, 1).HorizontalAlignment = xlLeft
             
             totalHT = totalHT + montantHT
             totalTVA = totalTVA + montantTVA
@@ -121,132 +143,197 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
     AjouterLignesModification = ligne
 End Function
 
-Sub AfficherTotauxModification(ligne As Long, totalHT As Double, montantTVA As Double, totalTTC As Double)
-    With wsDevis
-        ' Ligne vide
-        ligne = ligne + 1
+Sub AppliquerBorduresTableau(ligneDebut As Long, ligneFin As Long)
+    ' Cette routine applique les bordures uniquement à l'extérieur du tableau
+    ' et entre les colonnes (bordures verticales internes)
+    
+    With wsDevis.Range(wsDevis.Cells(ligneDebut, 1), wsDevis.Cells(ligneFin - 1, 6))
+        ' Supprimer toutes les bordures existantes
+        .Borders.LineStyle = xlNone
         
-        ' Total HT
-        .Cells(ligne, 5).Value = "Total HT :"
-        .Cells(ligne, 5).Font.Bold = True
-        .Cells(ligne, 5).HorizontalAlignment = xlRight
+        ' Bordure extérieure (cadre)
+        .BorderAround LineStyle:=xlContinuous, Weight:=xlMedium
+        
+        ' Bordures verticales internes pour délimiter les colonnes
+        .Borders(xlInsideVertical).LineStyle = xlContinuous
+        .Borders(xlInsideVertical).Weight = xlThin
+        
+        ' Bordure horizontale uniquement sous l'en-tête (entre ligne 27 et 28)
+        wsDevis.Range(wsDevis.Cells(ligneDebut, 1), wsDevis.Cells(ligneDebut, 6)).Borders(xlEdgeBottom).LineStyle = xlContinuous
+        wsDevis.Range(wsDevis.Cells(ligneDebut, 1), wsDevis.Cells(ligneDebut, 6)).Borders(xlEdgeBottom).Weight = xlMedium
+    End With
+End Sub
+
+Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, montantTVA As Double, totalTTC As Double)
+    Dim ligne As Long
+    ligne = ligneFinTableau + 2
+    
+    With wsDevis
+        ' Total HT, TVA et Total TTC sur 3 lignes
+        With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
+            .Merge
+            .Value = "Total HT"
+            .Font.Bold = True
+            .Font.Name = "Arial"
+            .Font.Size = 20
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+            .Borders.LineStyle = xlContinuous
+        End With
         .Cells(ligne, 6).Value = Format(totalHT, "#,##0.00") & " €"
         .Cells(ligne, 6).Font.Bold = True
-        .Cells(ligne, 6).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Font.Name = "Arial"
+        .Cells(ligne, 6).Font.Size = 20
+        .Cells(ligne, 6).HorizontalAlignment = xlCenter
+        .Cells(ligne, 6).Borders.LineStyle = xlContinuous
+        
+        ' Conditions de règlement sur la même ligne (colonnes 1-3)
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 3))
+            .Merge
+            .Value = "Conditions de règlement : A réception de la facture"
+            .Font.Italic = True
+            .Font.Size = 16
+            .Font.Name = "Arial"
+            .HorizontalAlignment = xlLeft
+            .VerticalAlignment = xlCenter
+        End With
+        .Rows(ligne).RowHeight = 26.25
         
         ligne = ligne + 1
         
         ' TVA
-        .Cells(ligne, 5).Value = "TVA :"
-        .Cells(ligne, 5).Font.Bold = True
-        .Cells(ligne, 5).HorizontalAlignment = xlRight
+        With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
+            .Merge
+            .Value = "TVA"
+            .Font.Bold = True
+            .Font.Name = "Arial"
+            .Font.Size = 20
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+            .Borders.LineStyle = xlContinuous
+        End With
         .Cells(ligne, 6).Value = Format(montantTVA, "#,##0.00") & " €"
         .Cells(ligne, 6).Font.Bold = True
-        .Cells(ligne, 6).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Font.Name = "Arial"
+        .Cells(ligne, 6).Font.Size = 20
+        .Cells(ligne, 6).HorizontalAlignment = xlCenter
+        .Cells(ligne, 6).Borders.LineStyle = xlContinuous
+        
+        ' Mode de règlement sur la même ligne
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 3))
+            .Merge
+            .Value = "Mode de règlement : chèque ou virement"
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 16
+            .Font.Name = "Arial"
+            .HorizontalAlignment = xlLeft
+            .VerticalAlignment = xlCenter
+        End With
+        .Rows(ligne).RowHeight = 26.25
         
         ligne = ligne + 1
         
         ' Total TTC
-        .Cells(ligne, 5).Value = "TOTAL TTC :"
-        .Cells(ligne, 5).Font.Bold = True
-        .Cells(ligne, 5).Font.Size = 12
-        .Cells(ligne, 5).HorizontalAlignment = xlRight
+        With .Range(.Cells(ligne, 4), .Cells(ligne, 5))
+            .Merge
+            .Value = "TOTAL TTC"
+            .Font.Bold = True
+            .Font.Name = "Arial"
+            .Font.Size = 20
+            .HorizontalAlignment = xlCenter
+            .VerticalAlignment = xlCenter
+            .Interior.Color = RGB(237, 242, 247)
+            .Borders.LineStyle = xlContinuous
+        End With
         .Cells(ligne, 6).Value = Format(totalTTC, "#,##0.00") & " €"
         .Cells(ligne, 6).Font.Bold = True
-        .Cells(ligne, 6).Font.Size = 12
-        .Cells(ligne, 6).HorizontalAlignment = xlRight
+        .Cells(ligne, 6).Font.Name = "Arial"
+        .Cells(ligne, 6).Font.Size = 20
+        .Cells(ligne, 6).HorizontalAlignment = xlCenter
+        .Cells(ligne, 6).Interior.Color = RGB(237, 242, 247)
+        .Cells(ligne, 6).Borders.LineStyle = xlContinuous
         
-        ' Bordure pour le total TTC
-        With .Range(.Cells(ligne, 5), .Cells(ligne, 6))
-            .Interior.Color = RGB(217, 217, 217)
+        ' Validité du devis
+        With .Range(.Cells(ligne, 1), .Cells(ligne, 3))
+            .Merge
+            .Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
+            .Font.Italic = True
+            .Font.Bold = True
+            .Font.Size = 16
+            .Font.Name = "Arial"
+            .HorizontalAlignment = xlLeft
+            .VerticalAlignment = xlCenter
         End With
+        .Rows(ligne).RowHeight = 26.25
         
-       ' ---------- Texte de fin ----------
-        ligne = ligne + 3
-        .Cells(ligne, 1).Value = "Conditions de règlement : A réception de la facture"
-        .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Arial"
-        Rows(ligne).RowHeight = 26.25
-
-        ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Mode de règlement : chèque ou virement"
-        .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Bold = True
-        .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Arial"
-        Rows(ligne).RowHeight = 26.25
-
-        ligne = ligne + 1
-        .Cells(ligne, 1).Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
-        .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Bold = True
-        .Cells(ligne, 1).Font.Size = 16
-        .Cells(ligne, 1).Font.Name = "Arial"
-        Rows(ligne).RowHeight = 26.25
-
-        ligne = ligne + 3
-        Rows(ligne).RowHeight = 54.75
-
-        ligne = ligne + 1
+        ' Positionner les éléments en bas de page (ligne 50 environ)
+        ligne = 50
+        
+        ' "Si ce devis vous convient..."
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
             .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention:"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 24
+            .Font.Size = 20
             .Font.Name = "Times New Roman"
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         End With
-
+        .Rows(ligne).RowHeight = 30
+        
         ligne = ligne + 1
+        
+        ' "Bon pour accord..."
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
-            .Value = " Bon pour accord et exécution des travaux"
+            .Value = "Bon pour accord et exécution des travaux"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 24
+            .Font.Size = 20
             .Font.Name = "Times New Roman"
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         End With
-
+        .Rows(ligne).RowHeight = 30
+        
         ligne = ligne + 2
+        
+        ' Date et Signature
         .Cells(ligne, 1).Value = "Date"
         .Cells(ligne, 1).Font.Italic = True
         .Cells(ligne, 1).Font.Size = 20
         .Cells(ligne, 1).Font.Name = "Times New Roman"
-
+        
         .Cells(ligne, 5).Value = "Signature"
         .Cells(ligne, 5).Font.Italic = True
         .Cells(ligne, 5).Font.Size = 20
         .Cells(ligne, 5).Font.Name = "Times New Roman"
-
+        
         ligne = ligne + 1
-        Rows(ligne).RowHeight = 123
-
+        .Rows(ligne).RowHeight = 80
+        
         ligne = ligne + 2
+        
+        ' Siège social
         With .Range(.Cells(ligne, 1), .Cells(ligne + 4, 6))
             .Merge
-            .Value = "Siège social : 27 rue Carnot 91300 MASSY" & vbCrLf & "Tél standard : 01 64 54 27 99" & vbCrLf & _
-                    "Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros" & vbCrLf & _
-                    "RCS Evry - NAF 7739Z" & vbCrLf & "N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr"
+            .Value = "Siège social : 27 rue Carnot 91300 MASSY" & vbCrLf & _
+                     "Tél standard : 01 64 54 27 99" & vbCrLf & _
+                     "Siret : 582 017 810 00414    S.N.C au Capital de 3 034 169 euros" & vbCrLf & _
+                     "RCS Evry - NAF 7739Z" & vbCrLf & _
+                     "N° intracommunautaire : FR 92582017810      www.istablog.fr   www.ista.fr"
             .Font.Size = 16
             .Font.Name = "Arial"
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
         End With
-
-        ligne = ligne + 4
-        Rows(ligne).RowHeight = 87.75
+        .Rows(ligne).RowHeight = 87.75
     End With
 End Sub
 
 Sub FinaliserDevis()
-    ' Ajustement automatique des lignes pour le retour à la ligne
-    wsDevis.Rows.AutoFit
-    
     ' Zoom optimal
     wsDevis.Range("A1").Select
     ActiveWindow.Zoom = 55
@@ -264,3 +351,4 @@ Sub FinaliserDevis()
     End If
     On Error GoTo 0
 End Sub
+
