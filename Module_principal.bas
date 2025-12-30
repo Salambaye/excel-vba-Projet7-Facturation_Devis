@@ -124,10 +124,10 @@ Sub Facturation_Devis()
         MsgBox "La feuille 'Tarif travaux Chauffage' n'existe pas dans Tarification", vbCritical
         GoTo Fin
     End If
-        If wsTarifVenteDeVannes Is Nothing Then
-            MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
-            GoTo Fin
-        End If
+    If wsTarifVenteDeVannes Is Nothing Then
+        MsgBox "La feuille 'Tarif de vente de vannes' n'existe pas dans Tarification", vbCritical
+        GoTo Fin
+    End If
     If wsTarifClient Is Nothing Then
         MsgBox "La feuille 'Tarif Client compteurs d'eau' n'existe pas dans Tarification", vbCritical
         GoTo Fin
@@ -178,7 +178,7 @@ Sub Facturation_Devis()
     modeDetaille = frmDesignation.optDetaille.Value
     Unload frmDesignation
     
-        ' Générer le numéro de devis
+    ' Générer le numéro de devis
     numeroDevis = GenererNumeroDevis()
     
     
@@ -241,9 +241,9 @@ Function GenererNumeroDevis() As String
     
     ' Incrémenter et sauvegarder
     compteur = compteur + 1
-'    Open cheminCompteur For Output As #1
-'    Print #1, compteur
-'    Close #1
+    '    Open cheminCompteur For Output As #1
+    '    Print #1, compteur
+    '    Close #1
 End Function
 
 Sub InitialiserDevis()
@@ -282,7 +282,7 @@ Sub InitialiserDevis()
         .PaperSize = xlPaperA4
         .Orientation = xlPortrait
         .Zoom = False
-           .FitToPagesWide = 1
+        .FitToPagesWide = 1
         .FitToPagesTall = False
         ' Laisser Excel gérer le nombre de pages
         .LeftMargin = Application.InchesToPoints(0.5)
@@ -292,10 +292,10 @@ Sub InitialiserDevis()
     End With
 
     ' Ajustement automatique des colonnes et lignes
-'    With wsDevis
-'        .Columns("A:D").AutoFit
-'        .Rows.AutoFit
-'    End With
+    '    With wsDevis
+    '        .Columns("A:D").AutoFit
+    '        .Rows.AutoFit
+    '    End With
    
     Call FormaterEntete
 End Sub
@@ -303,11 +303,11 @@ End Sub
 Sub FormaterEntete()
     With wsDevis
         ' En-tête du devis
-'        .Range("C3:D3").Merge
-'        .Range("C3:D3").Value = "Devis N° " & refUEBeep
-'        .Range("C3:D3").Font.Bold = True
-'        .Range("C3:D3").Font.Size = 36
-'        .Range("C3:D3").Font.Name = "Aptos Narrow"
+        '        .Range("C3:D3").Merge
+        '        .Range("C3:D3").Value = "Devis N° " & refUEBeep
+        '        .Range("C3:D3").Font.Bold = True
+        '        .Range("C3:D3").Font.Size = 36
+        '        .Range("C3:D3").Font.Name = "Aptos Narrow"
         .Cells(3, 3).Value = "Devis N° " & numeroDevis
         .Cells(3, 3).Font.Bold = True
         .Cells(3, 3).Font.Size = 36
@@ -346,20 +346,20 @@ Sub FormaterEntete()
         .Cells(20, 1).Value = "Code postal et ville : " & codePostalChantier & " " & villeChantier
         .Cells(21, 1).Value = "Emplacement travaux : " & emplacementTravaux
         
-         Rows("22:22").RowHeight = 33
-         Rows("23:23").RowHeight = 51.75
+        Rows("22:22").RowHeight = 33
+        Rows("23:23").RowHeight = 51.75
          
         ' Présentation
         .Cells(23, 1).Value = "Présentation du projet : "
         .Cells(23, 1).Font.Bold = True
         .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
-'        .Cells(23, 2).Value = presentationProjet
+        '        .Cells(23, 2).Value = presentationProjet
         .Range("B23:B23").Value = presentationProjet
         .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
 
-'    .HorizontalAlignment = xlCenter
+        '    .HorizontalAlignment = xlCenter
         .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
-                 .Range("B23:E23").VerticalAlignment = xlBottom
+        .Range("B23:E23").VerticalAlignment = xlBottom
 
         Rows("26:26").RowHeight = 26.25
         
@@ -370,15 +370,15 @@ Sub FormaterEntete()
         .Range("A10:F26").Font.Size = 20
         .Range("A11:A21").Font.Italic = True
         
-'         .Range("A6:A23").Font.Name = "Calibri"
-'        .Range("A6:A23").Font.Size = 11
-'
+        '         .Range("A6:A23").Font.Name = "Calibri"
+        '        .Range("A6:A23").Font.Size = 11
+        '
         ' Largeur des colonnes
         .Columns("A:A").ColumnWidth = 74.5
-        .Columns("B:B").ColumnWidth = 10 '9.25
+        .Columns("B:B").ColumnWidth = 9.25
         .Columns("C:C").ColumnWidth = 25.63
         .Columns("D:D").ColumnWidth = 24.75
-        .Columns("E:E").ColumnWidth = 17.13  '24.75
+        .Columns("E:E").ColumnWidth = 17.13      '24.75
         .Columns("F:F").ColumnWidth = 25.38
     End With
 End Sub
