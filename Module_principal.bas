@@ -246,6 +246,60 @@ Function GenererNumeroDevis() As String
     '    Close #1
 End Function
 
+'Sub InitialiserDevis()
+'    Dim wsSource As Worksheet
+'    Dim img As Shape
+'    Dim copieImg As Shape
+'
+'    ' Créer le fichier de sortie
+'    Set wbDevis = Workbooks.Add
+'    Set wsDevis = wbDevis.Worksheets(1)
+'    wsDevis.Name = "Devis Travaux"
+'    wsDevis.Tab.Color = RGB(242, 206, 239)
+'
+'
+'    ' Copier le logo si disponible
+'    On Error Resume Next
+'    Set wsSource = ThisWorkbook.Sheets("Images")
+'    If Not wsSource Is Nothing Then
+'        Set img = wsSource.Shapes("LogoIsta")
+'        If Not img Is Nothing Then
+'            img.Copy
+'            wsDevis.Paste
+'            Set copieImg = wsDevis.Shapes(wsDevis.Shapes.Count)
+'            With copieImg
+'                .top = wsDevis.Range("A2").top
+'                .left = wsDevis.Range("A2").left
+'                .LockAspectRatio = msoTrue
+'                .Height = 60
+'            End With
+'        End If
+'    End If
+'    On Error GoTo 0
+'
+'    ' Configurer la mise en page pour A4 et plusieurs pages si nécessaire
+'    With wsDevis.PageSetup
+'        .PaperSize = xlPaperA4
+'        .Orientation = xlPortrait
+'        .Zoom = False
+'        .FitToPagesWide = 1
+'        .FitToPagesTall = False
+'        ' Laisser Excel gérer le nombre de pages
+'        .LeftMargin = Application.InchesToPoints(0.5)
+'        .RightMargin = Application.InchesToPoints(0.5)
+'        .TopMargin = Application.InchesToPoints(0.75)
+'        .BottomMargin = Application.InchesToPoints(0.75)
+'    End With
+'
+'    ' Ajustement automatique des colonnes et lignes
+'    '    With wsDevis
+'    '        .Columns("A:D").AutoFit
+'    '        .Rows.AutoFit
+'    '    End With
+'
+'    Call FormaterEntete
+'End Sub
+
 Sub InitialiserDevis()
     Dim wsSource As Worksheet
     Dim img As Shape
@@ -256,7 +310,6 @@ Sub InitialiserDevis()
     Set wsDevis = wbDevis.Worksheets(1)
     wsDevis.Name = "Devis Travaux"
     wsDevis.Tab.Color = RGB(242, 206, 239)
-
     
     ' Copier le logo si disponible
     On Error Resume Next
@@ -265,7 +318,10 @@ Sub InitialiserDevis()
         Set img = wsSource.Shapes("LogoIsta")
         If Not img Is Nothing Then
             img.Copy
-            wsDevis.Paste
+            Application.Wait Now + TimeValue("00:00:01")
+            wsDevis.Paste wsDevis.Range("A2")
+            Application.CutCopyMode = False
+            
             Set copieImg = wsDevis.Shapes(wsDevis.Shapes.Count)
             With copieImg
                 .top = wsDevis.Range("A2").top
@@ -273,32 +329,30 @@ Sub InitialiserDevis()
                 .LockAspectRatio = msoTrue
                 .Height = 60
             End With
+        Else
+            Debug.Print "Le shape 'LogoIsta' n'a pas été trouvé dans la feuille Images"
         End If
+    Else
+        Debug.Print "La feuille 'Images' n'a pas été trouvée"
     End If
     On Error GoTo 0
     
-    ' Configurer la mise en page pour A4 et plusieurs pages si nécessaire
+    ' Configurer la mise en page pour A4
     With wsDevis.PageSetup
         .PaperSize = xlPaperA4
         .Orientation = xlPortrait
         .Zoom = False
         .FitToPagesWide = 1
         .FitToPagesTall = False
-        ' Laisser Excel gérer le nombre de pages
         .LeftMargin = Application.InchesToPoints(0.5)
         .RightMargin = Application.InchesToPoints(0.5)
         .TopMargin = Application.InchesToPoints(0.75)
         .BottomMargin = Application.InchesToPoints(0.75)
     End With
-
-    ' Ajustement automatique des colonnes et lignes
-    '    With wsDevis
-    '        .Columns("A:D").AutoFit
-    '        .Rows.AutoFit
-    '    End With
    
     Call FormaterEntete
 End Sub
+
 
 Sub FormaterEntete()
     With wsDevis
