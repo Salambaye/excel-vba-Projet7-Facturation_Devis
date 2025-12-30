@@ -246,60 +246,6 @@ Function GenererNumeroDevis() As String
     '    Close #1
 End Function
 
-'Sub InitialiserDevis()
-'    Dim wsSource As Worksheet
-'    Dim img As Shape
-'    Dim copieImg As Shape
-'
-'    ' Créer le fichier de sortie
-'    Set wbDevis = Workbooks.Add
-'    Set wsDevis = wbDevis.Worksheets(1)
-'    wsDevis.Name = "Devis Travaux"
-'    wsDevis.Tab.Color = RGB(242, 206, 239)
-'
-'
-'    ' Copier le logo si disponible
-'    On Error Resume Next
-'    Set wsSource = ThisWorkbook.Sheets("Images")
-'    If Not wsSource Is Nothing Then
-'        Set img = wsSource.Shapes("LogoIsta")
-'        If Not img Is Nothing Then
-'            img.Copy
-'            wsDevis.Paste
-'            Set copieImg = wsDevis.Shapes(wsDevis.Shapes.Count)
-'            With copieImg
-'                .top = wsDevis.Range("A2").top
-'                .left = wsDevis.Range("A2").left
-'                .LockAspectRatio = msoTrue
-'                .Height = 60
-'            End With
-'        End If
-'    End If
-'    On Error GoTo 0
-'
-'    ' Configurer la mise en page pour A4 et plusieurs pages si nécessaire
-'    With wsDevis.PageSetup
-'        .PaperSize = xlPaperA4
-'        .Orientation = xlPortrait
-'        .Zoom = False
-'        .FitToPagesWide = 1
-'        .FitToPagesTall = False
-'        ' Laisser Excel gérer le nombre de pages
-'        .LeftMargin = Application.InchesToPoints(0.5)
-'        .RightMargin = Application.InchesToPoints(0.5)
-'        .TopMargin = Application.InchesToPoints(0.75)
-'        .BottomMargin = Application.InchesToPoints(0.75)
-'    End With
-'
-'    ' Ajustement automatique des colonnes et lignes
-'    '    With wsDevis
-'    '        .Columns("A:D").AutoFit
-'    '        .Rows.AutoFit
-'    '    End With
-'
-'    Call FormaterEntete
-'End Sub
-
 Sub InitialiserDevis()
     Dim wsSource As Worksheet
     Dim img As Shape
@@ -356,12 +302,7 @@ End Sub
 
 Sub FormaterEntete()
     With wsDevis
-        ' En-tête du devis
-        '        .Range("C3:D3").Merge
-        '        .Range("C3:D3").Value = "Devis N° " & refUEBeep
-        '        .Range("C3:D3").Font.Bold = True
-        '        .Range("C3:D3").Font.Size = 36
-        '        .Range("C3:D3").Font.Name = "Aptos Narrow"
+    
         .Cells(3, 3).Value = "Devis N° " & numeroDevis
         .Cells(3, 3).Font.Bold = True
         .Cells(3, 3).Font.Size = 36
@@ -402,18 +343,36 @@ Sub FormaterEntete()
         
         Rows("22:22").RowHeight = 33
         Rows("23:23").RowHeight = 51.75
-         
-        ' Présentation
+        
+                ' Présentation du projet - sur la même ligne que le label
         .Cells(23, 1).Value = "Présentation du projet : "
         .Cells(23, 1).Font.Bold = True
+        .Cells(23, 1).Font.Size = 20
         .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
-        '        .Cells(23, 2).Value = presentationProjet
-        .Range("B23:B23").Value = presentationProjet
-        .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
-
-        '    .HorizontalAlignment = xlCenter
-        .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
-        .Range("B23:E23").VerticalAlignment = xlBottom
+        .Cells(23, 1).VerticalAlignment = xlCenter
+        
+        ' Fusionner les cellules pour la présentation
+        With .Range("B23:B23")
+'            .Merge
+            .Value = presentationProjet
+            .Font.Size = 20
+            .Font.Underline = xlUnderlineStyleSingle
+            .HorizontalAlignment = xlLeft
+            .VerticalAlignment = xlCenter
+            .WrapText = False
+        End With
+         
+'        ' Présentation
+'        .Cells(23, 1).Value = "Présentation du projet : "
+'        .Cells(23, 1).Font.Bold = True
+'        .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
+'        '        .Cells(23, 2).Value = presentationProjet
+'        .Range("B23:B23").Value = presentationProjet
+'        .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
+'
+'        '    .HorizontalAlignment = xlCenter
+'        .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
+'        .Range("B23:E23").VerticalAlignment = xlBottom
 
         Rows("26:26").RowHeight = 26.25
         
