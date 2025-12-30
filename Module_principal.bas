@@ -375,10 +375,11 @@ Sub FormaterEntete()
 '
         ' Largeur des colonnes
         .Columns("A:A").ColumnWidth = 74.5
-        .Columns("B:B").ColumnWidth = 9.25
+        .Columns("B:B").ColumnWidth = 10 '9.25
         .Columns("C:C").ColumnWidth = 25.63
-        .Columns("D:D").ColumnWidth = 17.13
-        .Columns("E:E").ColumnWidth = 24.75
+        .Columns("D:D").ColumnWidth = 24.75
+        .Columns("E:E").ColumnWidth = 17.13  '24.75
+        .Columns("F:F").ColumnWidth = 25.38
     End With
 End Sub
 
