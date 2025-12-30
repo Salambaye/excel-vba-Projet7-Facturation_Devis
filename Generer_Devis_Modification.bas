@@ -5,7 +5,7 @@ Sub GenererDevisModification()
     Dim ligneDebut As Long
     Dim ligneActuelle As Long
     
-    ligneDebut = 27
+    ligneDebut = 25
     ligneActuelle = ligneDebut
     
     ' Afficher le formulaire de modification
@@ -125,7 +125,7 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
             With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
                 .Borders.LineStyle = xlContinuous
                 .Font.Name = "Arial"
-                .Font.Size = 18
+                .Font.Size = 20
                 .VerticalAlignment = xlCenter
                 .HorizontalAlignment = xlCenter
             End With
