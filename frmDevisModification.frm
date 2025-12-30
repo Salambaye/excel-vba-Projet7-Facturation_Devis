@@ -19,10 +19,6 @@ Public Annule As Boolean
 Public dictLignes As Object
 Private compteurLignes As Long
 
-Private Sub txtDesignation_Change()
-
-End Sub
-
 Private Sub UserForm_Activate()
     With Application
         LargeurFenetre = .width
