@@ -13,10 +13,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' UserForm : frmDesignation
 ' Description : Formulaire pour choisir le mode de facturation (Détaillé ou Modification)
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 
 Public Annule As Boolean
 
@@ -26,16 +26,16 @@ Private Sub UserForm_Initialize()
     Me.left = Application.left + (Application.width - Me.width) / 2
     Me.top = Application.top + (Application.Height - Me.Height) / 2
     
-    ' ==================== CONFIGURATION DU USERFORM ====================
+    ' -------------------- CONFIGURATION DU USERFORM --------------------
     With Me
         .BackColor = RGB(245, 248, 250)          ' Bleu-gris très clair
         
-                .width = 855
-                .Height = 544
+        .width = 855
+        .Height = 544
         .caption = "Choix du mode de facturation"
     End With
     
-    ' ==================== LABEL DE TITRE ====================
+    ' -------------------- LABEL DE TITRE --------------------
     With lblTitre
         .caption = "Choisissez le mode de facturation"
         .Font.Name = "Segoe UI"
@@ -51,7 +51,7 @@ Private Sub UserForm_Initialize()
         .left = 10
     End With
     
-    ' ==================== FRAME FOURNITURES ====================
+    ' -------------------- FRAME FOURNITURES --------------------
     With FrameFournitures
         .caption = "Fournitures"
         .Font.Name = "Segoe UI"
@@ -66,7 +66,7 @@ Private Sub UserForm_Initialize()
         .left = 10
     End With
     
-    ' ==================== OPTION DÉTAILLÉ ====================
+    ' -------------------- OPTION DÉTAILLÉ --------------------
     With optDetaille
         .caption = "Détaillé"
         .Font.Name = "Segoe UI"
@@ -82,7 +82,7 @@ Private Sub UserForm_Initialize()
         .Value = True                            ' Sélectionné par défaut
     End With
     
-    ' ==================== OPTION MODIFICATION ====================
+    ' -------------------- OPTION MODIFICATION --------------------
     With optModification
         .caption = "Modification des prix"
         .Font.Name = "Segoe UI"
@@ -98,7 +98,7 @@ Private Sub UserForm_Initialize()
         .Value = False
     End With
     
-    ' ==================== BOUTON VALIDER ====================
+    ' -------------------- BOUTON VALIDER --------------------
     With btnValider
         .caption = "Valider"
         .Font.Name = "Segoe UI"
@@ -108,13 +108,13 @@ Private Sub UserForm_Initialize()
         .ForeColor = RGB(255, 255, 255)
         .width = 120
         .Height = 35
-'        .top = 220
-'        .left = 350
+        '        .top = 220
+        '        .left = 350
         .top = 140
         .left = 660
     End With
     
-    ' ==================== BOUTON ANNULER ====================
+    ' -------------------- BOUTON ANNULER --------------------
     With btnAnnuler
         .caption = "Annuler"
         .Font.Name = "Segoe UI"
@@ -125,14 +125,14 @@ Private Sub UserForm_Initialize()
         .Height = 35
         .top = 80
         .left = 660
-'        .top = 220
-'        .left = 100
+        '        .top = 220
+        '        .left = 100
     End With
 End Sub
 
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événement : Clic sur l'option Détaillé
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub optDetaille_Click()
 '    ' Mettre en surbrillance l'option sélectionnée (bleu)
 '    optDetaille.BackColor = RGB(30, 58, 138)
@@ -140,9 +140,9 @@ End Sub
 '    optModification.BackColor = RGB(156, 163, 175)
 'End Sub
 '
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événement : Clic sur l'option Modification
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub optModification_Click()
 '    ' Mettre en surbrillance l'option sélectionnée (bleu)
 '    optModification.BackColor = RGB(30, 58, 138)
@@ -150,9 +150,9 @@ End Sub
 '    optDetaille.BackColor = RGB(156, 163, 175)
 'End Sub
 '
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événement : Clic sur le bouton Valider
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub btnValider_Click()
 '    ' Vérifier qu'une option est sélectionnée
 '    If Not optDetaille.Value And Not optModification.Value Then
@@ -165,17 +165,17 @@ End Sub
 '    Me.Hide
 'End Sub
 '
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événement : Clic sur le bouton Annuler
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub btnAnnuler_Click()
 '    Me.Annule = True
 '    Me.Hide
 'End Sub
 '
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événement : Fermeture du formulaire avec la croix (X)
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
 '    If CloseMode = vbFormControlMenu Then
 '        Me.Annule = True
@@ -184,9 +184,9 @@ End Sub
 '    End If
 'End Sub
 '
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 '' Événements vides pour éviter les erreurs
-''========================================================================================
+''----------------------------------------------------------------------------------------------------
 'Private Sub FrameFournitures_Click()
 '    ' Nécessaire pour éviter les erreurs lors du clic sur le Frame
 'End Sub
@@ -196,22 +196,22 @@ End Sub
 'End Sub
 '
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événement : Clic sur l'option Détaillé
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub optDetaille_Click()
     optDetaille.BackColor = RGB(30, 58, 138)
     optModification.BackColor = RGB(156, 163, 175)
     ' Afficher la zone Désignation
     lblDesignation.Visible = True
-    lblDesignation.BackColor = RGB(30, 58, 138)            ' Bleu marine profond
+    lblDesignation.BackColor = RGB(30, 58, 138)  ' Bleu marine profond
     txtDesignation.Visible = True
     Me.Height = 544
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événement : Clic sur l'option Modification
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub optModification_Click()
     optModification.BackColor = RGB(30, 58, 138)
     optDetaille.BackColor = RGB(156, 163, 175)
@@ -221,9 +221,9 @@ Private Sub optModification_Click()
     Me.Height = 300
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événement : Clic sur le bouton Valider
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub btnValider_Click()
     If Not optDetaille.Value And Not optModification.Value Then
         MsgBox "Veuillez sélectionner un mode de facturation.", vbExclamation, "Sélection requise"
@@ -241,17 +241,17 @@ Private Sub btnValider_Click()
     Me.Hide
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événement : Clic sur le bouton Annuler
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub btnAnnuler_Click()
     Me.Annule = True
     Me.Hide
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événement : Fermeture du formulaire avec la croix (X)
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     If CloseMode = vbFormControlMenu Then
         Me.Annule = True
@@ -260,11 +260,9 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     End If
 End Sub
 
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 ' Événements vides pour éviter les erreurs
-'========================================================================================
+'----------------------------------------------------------------------------------------------------
 Private Sub FrameFournitures_Click()
 End Sub
 
-Private Sub lblTitre_Click()
-End Sub
