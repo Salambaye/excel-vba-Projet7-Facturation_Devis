@@ -24,10 +24,6 @@ Public dictMainOeuvre As Object
 Dim ws As Worksheet
 Dim derniereLigne As Long
 
-Private Sub lblElementsAjoutes_Click()
-
-End Sub
-
 Private Sub UserForm_Initialize()
     Me.Annule = False
     Me.StartUpPosition = 0
@@ -366,16 +362,16 @@ Private Sub ChargerListeMainOeuvre()
         For i = 7 To derniereLigne
             colA = CStr(Trim(ws.Cells(i, 1).Value & ""))
             colB = CStr(Trim(ws.Cells(i, 2).Value & ""))
-            prix = ws.Cells(i, 3).Value
+            prix = ws.Cells(i, 5).Value
             
             If prix = "" Then prix = 0
             If Not IsNumeric(prix) Then prix = 0
             
             If colA <> "" Or colB <> "" Then
                 If colB <> "" Then
-                    item = colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €/h"
+                    item = colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €/heure"
                 Else
-                    item = colA & " - " & Format(CDbl(prix), "#,##0.00") & " €/h"
+                    item = colA & " - " & Format(CDbl(prix), "#,##0.00") & " €/heure"
                 End If
                 lstMainOeuvre.AddItem item
             End If
@@ -505,48 +501,130 @@ End Sub
 ' Extraire le prix d'une ligne de texte
 '========================================================================================
 Private Function ExtrairePrix(texte As String) As Double
-    On Error GoTo GestionErreur
+    On Error Resume Next
     
     Dim pos As Long
     Dim prixStr As String
-    Dim i As Integer
-    Dim resultat As String
+    Dim i As Long
     Dim caractere As String
+    Dim resultat As String
+    Dim nbPoints As Long
+    Dim nbVirgules As Long
     
     ExtrairePrix = 0
     
+    ' Debug : afficher le texte source
+    Debug.Print "=== Extraction prix de : " & texte
+    
     ' Trouver le dernier " - "
     pos = InStrRev(texte, " - ")
-    If pos = 0 Then Exit Function
+    If pos = 0 Then
+        Debug.Print "Pas de ' - ' trouvé"
+        Exit Function
+    End If
     
     ' Extraire la partie après " - "
-    prixStr = Mid(texte, pos + 3)
+    prixStr = Trim(Mid(texte, pos + 3))
+    Debug.Print "Partie prix brute : [" & prixStr & "]"
     
-    ' Nettoyer : garder uniquement chiffres, point et virgule
+    ' Enlever les espaces
+    prixStr = Replace(prixStr, " ", "")
+    
+    ' Enlever les symboles € et /h
+    prixStr = Replace(prixStr, "€", "")
+    prixStr = Replace(prixStr, "/h", "")
+    
+    Debug.Print "Après nettoyage symboles : [" & prixStr & "]"
+    
+    ' Compter les virgules et les points pour déterminer le séparateur décimal
+    nbVirgules = Len(prixStr) - Len(Replace(prixStr, ",", ""))
+    nbPoints = Len(prixStr) - Len(Replace(prixStr, ".", ""))
+    
+    ' Si on a les deux, le dernier est le séparateur décimal
+    If nbVirgules > 0 And nbPoints > 0 Then
+        ' Déterminer lequel est le séparateur décimal (le dernier)
+        Dim posVirgule As Long
+        Dim posPoint As Long
+        posVirgule = InStrRev(prixStr, ",")
+        posPoint = InStrRev(prixStr, ".")
+        
+        If posVirgule > posPoint Then
+            ' La virgule est le séparateur décimal
+            prixStr = Replace(prixStr, ".", "")  ' Enlever les points (séparateurs de milliers)
+            prixStr = Replace(prixStr, ",", ".")  ' Remplacer virgule par point
+        Else
+            ' Le point est le séparateur décimal
+            prixStr = Replace(prixStr, ",", "")  ' Enlever les virgules (séparateurs de milliers)
+        End If
+    ElseIf nbVirgules > 0 Then
+        ' Seulement des virgules : remplacer par point
+        prixStr = Replace(prixStr, ",", ".")
+    End If
+    
+    ' Nettoyer : garder uniquement chiffres et point
     resultat = ""
     For i = 1 To Len(prixStr)
         caractere = Mid(prixStr, i, 1)
-        If caractere >= "0" And caractere <= "9" Then
-            resultat = resultat & caractere
-        ElseIf caractere = "," Or caractere = "." Then
+        If (caractere >= "0" And caractere <= "9") Or caractere = "." Then
             resultat = resultat & caractere
         End If
     Next i
     
-    ' Remplacer virgule par point
-    resultat = Replace(resultat, ",", ".")
+    Debug.Print "Résultat nettoyé : [" & resultat & "]"
     
     ' Convertir en nombre
-    If Len(resultat) > 0 And IsNumeric(resultat) Then
-        ExtrairePrix = CDbl(resultat)
+    If Len(resultat) > 0 Then
+        ExtrairePrix = Val(resultat)
+        Debug.Print "Prix extrait : " & ExtrairePrix
+    Else
+        Debug.Print "Aucun nombre trouvé"
     End If
     
-    Exit Function
-    
-GestionErreur:
-    Debug.Print "Erreur ExtrairePrix : " & Err.Description & " - Texte : " & texte
-    ExtrairePrix = 0
+    On Error GoTo 0
 End Function
+'Private Function ExtrairePrix(texte As String) As Double
+'    On Error GoTo GestionErreur
+'
+'    Dim pos As Long
+'    Dim prixStr As String
+'    Dim i As Integer
+'    Dim resultat As String
+'    Dim caractere As String
+'
+'    ExtrairePrix = 0
+'
+'    ' Trouver le dernier " - "
+'    pos = InStrRev(texte, " - ")
+'    If pos = 0 Then Exit Function
+'
+'    ' Extraire la partie après " - "
+'    prixStr = Mid(texte, pos + 3)
+'
+'    ' Nettoyer : garder uniquement chiffres, point et virgule
+'    resultat = ""
+'    For i = 1 To Len(prixStr)
+'        caractere = Mid(prixStr, i, 1)
+'        If caractere >= "0" And caractere <= "9" Then
+'            resultat = resultat & caractere
+'        ElseIf caractere = "," Or caractere = "." Then
+'            resultat = resultat & caractere
+'        End If
+'    Next i
+'
+'    ' Remplacer virgule par point
+'    resultat = Replace(resultat, ",", ".")
+'
+'    ' Convertir en nombre
+'    If Len(resultat) > 0 And IsNumeric(resultat) Then
+'        ExtrairePrix = CDbl(resultat)
+'    End If
+'
+'    Exit Function
+'
+'GestionErreur:
+'    Debug.Print "Erreur ExtrairePrix : " & Err.Description & " - Texte : " & texte
+'    ExtrairePrix = 0
+'End Function
 
 '========================================================================================
 ' Supprimer un élément de la liste
