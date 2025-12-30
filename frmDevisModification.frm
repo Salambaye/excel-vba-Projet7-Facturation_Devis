@@ -304,12 +304,12 @@ Private Sub btnAjouterLigne_Click()
     End If
     prixUnitaire = CDbl(txtPrixUnitaire.Value)
     
-    If cboTVA.ListIndex < 0 Then
-        MsgBox "Veuillez sélectionner un taux de TVA.", vbExclamation
-        cboTVA.SetFocus
+    If Not IsNumeric(txtTVA.Value) Then
+        MsgBox "Veuillez sélectionner un taux de TVA valide.", vbExclamation
+        txtTVA.SetFocus
         Exit Sub
     End If
-    tva = CDbl(cboTVA.Value)
+    tva = CDbl(txtTVA.Value)
     
     montantHT = quantite * prixUnitaire
     
@@ -337,7 +337,7 @@ Private Sub btnAjouterLigne_Click()
     txtDesignation.Value = ""
     txtQuantite.Value = "1"
     txtPrixUnitaire.Value = "0"
-    cboTVA.ListIndex = 1
+    txtTVA.Value = "10"
     txtDesignation.SetFocus
 End Sub
 
