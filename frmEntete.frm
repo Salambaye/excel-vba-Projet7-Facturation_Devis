@@ -167,15 +167,6 @@ Attribute VB_Exposed = False
 
 Public Annule As Boolean
 
-Private Sub lblAdresseChantier_Click()
-
-End Sub
-
-Private Sub lblNomClient_Click()
-
-End Sub
-
-
 Private Sub UserForm_Activate()
 
     With Application
@@ -192,15 +183,15 @@ End Sub
 
 Private Sub UserForm_Initialize()
     Me.Annule = False
-'    Me.StartUpPosition = 0
-'    Me.left = Application.left + (Application.width - Me.width) / 2
-'    Me.top = Application.top + (Application.Height - Me.Height) / 2
+    '    Me.StartUpPosition = 0
+    '    Me.left = Application.left + (Application.width - Me.width) / 2
+    '    Me.top = Application.top + (Application.Height - Me.Height) / 2
     
     ' Configuration du UserForm
     With Me
         .BackColor = RGB(245, 248, 250)
-                .width = 920.25
-                .Height = 670
+        .width = 920.25
+        .Height = 670
         .caption = "Informations du devis"
     End With
 
@@ -323,8 +314,6 @@ Private Sub UserForm_Initialize()
         '        .left = 270
     End With
 End Sub
-
-
 
 'Private Sub ConfigurerLabel(ctrl As MSForms.Label, caption As String, left As Long, top As Long)
 '    With ctrl
