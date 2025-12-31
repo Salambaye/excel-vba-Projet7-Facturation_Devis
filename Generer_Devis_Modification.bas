@@ -37,18 +37,18 @@ Sub GenererDevisModification()
     
     ' Compléter le tableau jusqu'à 15 lignes minimum
     Dim ligneFinTableau As Long
-    ligneFinTableau = ligneDebut + 16  ' En-tête + 15 lignes de contenu
+    ligneFinTableau = ligneDebut + 16            ' En-tête + 15 lignes de contenu
     
     ' Compléter avec des lignes vides si nécessaire
     Do While ligneActuelle < ligneFinTableau
         With wsDevis
-'            .Range(.Cells(ligneActuelle, 1), .Cells(ligneActuelle, 6)).Borders.LineStyle = xlContinuous
+            '            .Range(.Cells(ligneActuelle, 1), .Cells(ligneActuelle, 6)).Borders.LineStyle = xlContinuous
             .Rows(ligneActuelle).RowHeight = 20
         End With
         ligneActuelle = ligneActuelle + 1
     Loop
     
-     ' Appliquer les bordures au tableau complet
+    ' Appliquer les bordures au tableau complet
     Call AppliquerBorduresTableau(ligneDebut, ligneFinTableau)
     
     ' Calcul du total TTC
@@ -65,10 +65,10 @@ Sub CreerEntetesTableauModification(ligne As Long)
         ' En-têtes
         .Cells(ligne, 1).Value = "Désignation"
         .Cells(ligne, 2).Value = "Qté"
-        .Cells(ligne, 3).Value = "Prix unitaire(€)"
-        .Cells(ligne, 4).Value = "Total HT(€)"
+        .Cells(ligne, 3).Value = "Prix unitaire"
+        .Cells(ligne, 4).Value = "Total HT"
         .Cells(ligne, 5).Value = "TVA"
-        .Cells(ligne, 6).Value = "Total TTC(€)"
+        .Cells(ligne, 6).Value = "Total TTC"
         
         ' Mise en forme des en-têtes
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
@@ -114,7 +114,7 @@ Function AjouterLignesModification(ligneDebut As Long, ByRef totalHT As Double, 
             
             ' Remplir la ligne
             .Cells(ligne, 1).Value = designation
-            .Cells(ligne, 1).WrapText = True
+                        .Cells(ligne, 1).WrapText = True
             .Cells(ligne, 2).Value = quantite
             .Cells(ligne, 3).Value = Format(prixUnitaire, "#,##0.00") & " €"
             .Cells(ligne, 4).Value = Format(montantHT, "#,##0.00") & " €"
@@ -187,12 +187,12 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
         .Cells(ligne, 6).HorizontalAlignment = xlCenter
         .Cells(ligne, 6).Borders.LineStyle = xlContinuous
         
-        ' Conditions de règlement sur la même ligne (colonnes 1-3)
+        ' Conditions de règlement
         With .Range(.Cells(ligne, 1), .Cells(ligne, 3))
             .Merge
             .Value = "Conditions de règlement : A réception de la facture"
             .Font.Italic = True
-            .Font.Size = 16
+            .Font.Size = 18 '16
             .Font.Name = "Arial"
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
@@ -219,13 +219,13 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
         .Cells(ligne, 6).HorizontalAlignment = xlCenter
         .Cells(ligne, 6).Borders.LineStyle = xlContinuous
         
-        ' Mode de règlement sur la même ligne
+        ' Mode de règlement
         With .Range(.Cells(ligne, 1), .Cells(ligne, 3))
             .Merge
             .Value = "Mode de règlement : chèque ou virement"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 16
+            .Font.Size = 18 '16
             .Font.Name = "Arial"
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
@@ -260,7 +260,7 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
             .Value = "Ce devis est valable 30 jours à compter de sa date de réalisation"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 16
+            .Font.Size = 18 '16
             .Font.Name = "Arial"
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
@@ -270,13 +270,12 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
         ' Positionner les éléments en bas de page (ligne 50 environ)
         ligne = 50
         
-        ' "Si ce devis vous convient..."
         With .Range(.Cells(ligne, 1), .Cells(ligne, 6))
             .Merge
             .Value = "Si ce devis vous convient, veuillez nous le retourner signé précédé de la mention:"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 20
+            .Font.Size = 22
             .Font.Name = "Times New Roman"
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
@@ -291,7 +290,7 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
             .Value = "Bon pour accord et exécution des travaux"
             .Font.Italic = True
             .Font.Bold = True
-            .Font.Size = 20
+            .Font.Size = 22
             .Font.Name = "Times New Roman"
             .HorizontalAlignment = xlCenter
             .VerticalAlignment = xlCenter
@@ -340,7 +339,7 @@ Sub FinaliserDevis()
     
     ' Sauvegarde du fichier
     Dim nomFichier As String
-    nomFichier = "Devis_" & Replace(nomClient, " ", "_") & "_" & Format(Now, "yyyymmdd_hhmmss") & ".xlsx"
+    nomFichier = "Devis_" & refUEBeep & "-" & Format(Now, "yyyymmdd") & "_" & nomClient & ".xlsx"
     cheminSortie = dossierSauvegarde & "\" & nomFichier
     
     On Error Resume Next
@@ -351,4 +350,5 @@ Sub FinaliserDevis()
     End If
     On Error GoTo 0
 End Sub
+
 
