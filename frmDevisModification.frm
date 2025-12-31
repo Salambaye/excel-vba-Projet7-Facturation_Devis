@@ -101,13 +101,13 @@ Private Sub UserForm_Initialize()
     End With
     
     With txtDesignation
-        .Font.Name = "Segoe UI" ' "Arial"
-        .Font.Size = 11 '10
+        .Font.Name = "Segoe UI"                  ' "Arial"
+        .Font.Size = 11                          '10
         .width = 560
         .Height = 75
         .top = topPos
         .left = leftControl
-                .Multiline = True
+        .Multiline = True
         .WordWrap = True
         .EnterKeyBehavior = True
     End With

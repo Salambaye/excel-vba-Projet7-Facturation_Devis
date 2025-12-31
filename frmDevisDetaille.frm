@@ -369,9 +369,9 @@ Private Sub ChargerListeMainOeuvre()
             
             If colA <> "" Or colB <> "" Then
                 If colB <> "" Then
-                    item = colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €/heure"
+                    item = colA & " (" & colB & ") - " & Format(CDbl(prix), "#,##0.00") & " €/h"
                 Else
-                    item = colA & " - " & Format(CDbl(prix), "#,##0.00") & " €/heure"
+                    item = colA & " - " & Format(CDbl(prix), "#,##0.00") & " €/h"
                 End If
                 lstMainOeuvre.AddItem item
             End If
@@ -533,6 +533,8 @@ Private Function ExtrairePrix(texte As String) As Double
     ' Enlever les symboles € et /h
     prixStr = Replace(prixStr, "€", "")
     prixStr = Replace(prixStr, "/h", "")
+    prixStr = Replace(prixStr, "/heure", "")
+    prixStr = Replace(prixStr, "€/heure", "")
     
     Debug.Print "Après nettoyage symboles : [" & prixStr & "]"
     
@@ -551,7 +553,7 @@ Private Function ExtrairePrix(texte As String) As Double
         If posVirgule > posPoint Then
             ' La virgule est le séparateur décimal
             prixStr = Replace(prixStr, ".", "")  ' Enlever les points (séparateurs de milliers)
-            prixStr = Replace(prixStr, ",", ".")  ' Remplacer virgule par point
+            prixStr = Replace(prixStr, ",", ".") ' Remplacer virgule par point
         Else
             ' Le point est le séparateur décimal
             prixStr = Replace(prixStr, ",", "")  ' Enlever les virgules (séparateurs de milliers)
@@ -582,6 +584,7 @@ Private Function ExtrairePrix(texte As String) As Double
     
     On Error GoTo 0
 End Function
+
 'Private Function ExtrairePrix(texte As String) As Double
 '    On Error GoTo GestionErreur
 '
