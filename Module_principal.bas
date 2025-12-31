@@ -1,5 +1,5 @@
 Attribute VB_Name = "Module_principal"
-'Salamata Nourou MBAYE - 29/12/2025 - Version 1.0
+'Salamata Nourou MBAYE - 31/12/2025 - Version 1.0
 'PROJET 7 - Facturation
 'Module_principal
 
@@ -105,8 +105,8 @@ Sub Facturation_Devis()
     Set wsTarifGenerique = wbTarification.Worksheets("Tarif générique 2025 ")
     Set wsTarifPlomberie = wbTarification.Worksheets("Tarif travaux Plomberie")
     Set wsTarifChauffage = wbTarification.Worksheets("Tarif travaux Chauffage")
-    '    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif vente de vannes")
-    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif")
+    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif de vente de vannes")
+    '    Set wsTarifVenteDeVannes = wbTarification.Worksheets("Tarif")
     Set wsTarifClient = wbTarification.Worksheets("Tarif Client compteurs d'eau")
     Set wsTarifPassage = wbTarification.Worksheets("Tarif passage supplémentaire")
     On Error GoTo 0
@@ -179,7 +179,7 @@ Sub Facturation_Devis()
     Unload frmDesignation
     
     ' Générer le numéro de devis
-    numeroDevis = GenererNumeroDevis()
+    '    numeroDevis = GenererNumeroDevis()
     
     
     '------------------- Initialisation du devis -----------------------------------
@@ -273,7 +273,7 @@ Sub InitialiserDevis()
                 .top = wsDevis.Range("A2").top
                 .left = wsDevis.Range("A2").left
                 .LockAspectRatio = msoTrue
-                .Height = 60
+                .Height = 80
             End With
         Else
             Debug.Print "Le shape 'LogoIsta' n'a pas été trouvé dans la feuille Images"
@@ -299,11 +299,10 @@ Sub InitialiserDevis()
     Call FormaterEntete
 End Sub
 
-
 Sub FormaterEntete()
     With wsDevis
     
-        .Cells(3, 3).Value = "Devis N° " & numeroDevis
+        .Cells(3, 3).Value = "Devis N° " & refUEBeep & "-" & Format(Now, "yyyymmdd")
         .Cells(3, 3).Font.Bold = True
         .Cells(3, 3).Font.Size = 36
         .Cells(3, 3).Font.Name = "Aptos Narrow"
@@ -344,43 +343,43 @@ Sub FormaterEntete()
         Rows("22:22").RowHeight = 33
         Rows("23:23").RowHeight = 51.75
         
-                ' Présentation du projet - sur la même ligne que le label
+        ' Présentation du projet
         .Cells(23, 1).Value = "Présentation du projet : "
         .Cells(23, 1).Font.Bold = True
-        .Cells(23, 1).Font.Size = 20
+'        .Cells(23, 1).Font.Size = 22 '20
         .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
         .Cells(23, 1).VerticalAlignment = xlCenter
         
         ' Fusionner les cellules pour la présentation
         With .Range("B23:B23")
-'            .Merge
+            '            .Merge
             .Value = presentationProjet
-            .Font.Size = 20
+'            .Font.Size = 22 '20
             .Font.Underline = xlUnderlineStyleSingle
             .HorizontalAlignment = xlLeft
             .VerticalAlignment = xlCenter
             .WrapText = False
         End With
          
-'        ' Présentation
-'        .Cells(23, 1).Value = "Présentation du projet : "
-'        .Cells(23, 1).Font.Bold = True
-'        .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
-'        '        .Cells(23, 2).Value = presentationProjet
-'        .Range("B23:B23").Value = presentationProjet
-'        .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
-'
-'        '    .HorizontalAlignment = xlCenter
-'        .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
-'        .Range("B23:E23").VerticalAlignment = xlBottom
+        '        ' Présentation
+        '        .Cells(23, 1).Value = "Présentation du projet : "
+        '        .Cells(23, 1).Font.Bold = True
+        '        .Cells(23, 1).Font.Underline = xlUnderlineStyleSingle
+        '        '        .Cells(23, 2).Value = presentationProjet
+        '        .Range("B23:B23").Value = presentationProjet
+        '        .Range("B23:E23").Font.Underline = xlUnderlineStyleSingle
+        '
+        '        '    .HorizontalAlignment = xlCenter
+        '        .Range("B23:E23").HorizontalAlignment = xlCenterAcrossSelection
+        '        .Range("B23:E23").VerticalAlignment = xlBottom
 
         Rows("26:26").RowHeight = 26.25
         
         ' Mise en forme
         .Range("A6:A8").Font.Name = "Aptos Narrow"
-        .Range("A6:A8").Font.Size = 16
+        .Range("A6:A8").Font.Size = 18 '16
         .Range("A10:F26").Font.Name = "Arial"
-        .Range("A10:F26").Font.Size = 20
+        .Range("A10:F26").Font.Size = 22 '20
         .Range("A11:A21").Font.Italic = True
         
         '         .Range("A6:A23").Font.Name = "Calibri"
