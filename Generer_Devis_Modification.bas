@@ -37,7 +37,7 @@ Sub GenererDevisModification()
 
     ' Compléter le tableau jusqu'à 15 lignes minimum
     Dim ligneFinTableau As Long
-    ligneFinTableau = ligneDebut + 17            ' En-tête + 15 lignes de contenu
+    ligneFinTableau = ligneDebut + 16            ' En-tête + 15 lignes de contenu
 
     ' Compléter avec des lignes vides si nécessaire
 '    Do While ligneActuelle < ligneFinTableau
@@ -309,12 +309,12 @@ Sub AfficherTotauxModification(ligneFinTableau As Long, totalHT As Double, monta
         ' Date et Signature
         .Cells(ligne, 1).Value = "Date"
         .Cells(ligne, 1).Font.Italic = True
-        .Cells(ligne, 1).Font.Size = 20
+        .Cells(ligne, 1).Font.Size = 22
         .Cells(ligne, 1).Font.Name = "Times New Roman"
 
         .Cells(ligne, 5).Value = "Signature"
         .Cells(ligne, 5).Font.Italic = True
-        .Cells(ligne, 5).Font.Size = 20
+        .Cells(ligne, 5).Font.Size = 22
         .Cells(ligne, 5).Font.Name = "Times New Roman"
 
         ligne = ligne + 1
